@@ -2,9 +2,12 @@ package engine;
 
 import org.joml.Vector2d;
 import org.joml.Vector2f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 import static org.lwjgl.glfw.GLFW.*;
+
+import java.nio.DoubleBuffer;
 
 public class Mouse {
     private Vector2d previousPos;
@@ -13,7 +16,7 @@ public class Mouse {
 
     private GLFWCursorPosCallback posCallback;
 
-    private boolean inWindow = false;
+    private boolean inWindow = true;
     private boolean leftButtonPressed = false;
     private boolean rightButtonPressed = false;
 
@@ -25,18 +28,7 @@ public class Mouse {
     }
 
     public void init(Window window) {
-        glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-        glfwSetCursorPosCallback(window.getWindowHandle(), (windowHandle, xpos, ypos) -> {
-            currentPos.x = xpos;
-            currentPos.y = ypos;
-        });
-        glfwSetCursorEnterCallback(window.getWindowHandle(), (windowHandle, entered) -> {
-            inWindow = entered;
-        });
-        glfwSetCursorPosCallback(window.getWindowHandle(), posCallback = GLFWCursorPosCallback.create((windowHandle, xpos, ypos) -> {
-            System.out.println(xpos);
-        }));
+        
     }
 
     public Vector2f getDisplVec() {
@@ -44,6 +36,20 @@ public class Mouse {
     }
 
     public void input(Window window) {
+
+        leftButtonPressed = glfwGetMouseButton(window.getWindowHandle(), GLFW_MOUSE_BUTTON_1) == 1 ? true : false;
+        rightButtonPressed = glfwGetMouseButton(window.getWindowHandle(), GLFW_MOUSE_BUTTON_2) == 1 ? true : false;
+        
+        DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
+        DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
+
+        glfwGetCursorPos(window.getWindowHandle(), x, y);
+        x.rewind();
+        y.rewind();
+
+        currentPos.x = x.get();
+        currentPos.y = y.get();
+
         displVec.x = 0;
         displVec.y = 0;
         if (previousPos.x > 0 && previousPos.y > 0 && inWindow) {
@@ -59,9 +65,6 @@ public class Mouse {
             }
         }
 
-        leftButtonPressed = glfwGetMouseButton(window.getWindowHandle(), GLFW_MOUSE_BUTTON_1) == 1 ? true : false;
-        rightButtonPressed = glfwGetMouseButton(window.getWindowHandle(), GLFW_MOUSE_BUTTON_2) == 1 ? true : false;
-        
         previousPos.x = currentPos.x;
         previousPos.y = currentPos.y;
     }

@@ -176,6 +176,7 @@ public class Game implements GameLogic {
          // Update camera based on mouse            
         if (mouseInput.isRightButtonPressed()) {
             Vector2f rotVec = mouseInput.getDisplVec();
+            System.out.println(rotVec.x + "," + rotVec.y);
             camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
         }
     }
