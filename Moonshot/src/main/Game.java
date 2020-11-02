@@ -135,11 +135,17 @@ public class Game implements GameLogic {
         };
 
         Texture texture = new Texture("Moonshot/src/resources/textures/texture.png");
-        Mesh mesh = new Mesh(positions, textCoords, indices, texture);
+        Mesh cube = new Mesh(positions, textCoords, indices, texture);
 
-        Entity entity = new Entity(mesh);
+        Entity entity = new Entity(cube);
         entity.setPosition(0, 0, -2);
-        entities = new Entity[]{ entity };
+
+        Entity entity1 = new Entity(cube);
+        entity.setPosition(0, 1, -1);
+
+        entities = new Entity[]{ entity , entity1};
+
+        camera.setPosition(0, 2, 0);
     }
     
     @Override
@@ -155,9 +161,9 @@ public class Game implements GameLogic {
         } else if (window.isKeyPressed(GLFW_KEY_D)) {
             cameraInc.x = 1;
         }
-        if (window.isKeyPressed(GLFW_KEY_Z)) {
+        if (window.isKeyPressed(GLFW_KEY_Q)) {
             cameraInc.y = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_X)) {
+        } else if (window.isKeyPressed(GLFW_KEY_E)) {
             cameraInc.y = 1;
         }
 
