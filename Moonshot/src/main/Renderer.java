@@ -70,7 +70,7 @@ public class Renderer {
         shaderProgram.createUniform("texture_sampler");
 
     
-        window.setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        window.setClearColor(0.25f, 0.5f, 0.0f, 0.0f);
     }
 
     public void clear() {
