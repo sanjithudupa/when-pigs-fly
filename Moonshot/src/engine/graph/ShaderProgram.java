@@ -9,7 +9,6 @@ import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
 public class ShaderProgram {
-
     private final int programId;
 
     private int vertexShaderId;
@@ -87,8 +86,9 @@ public class ShaderProgram {
 
         glValidateProgram(programId);
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
-            System.out.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
+            System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
         }
+
     }
 
     public void bind() {

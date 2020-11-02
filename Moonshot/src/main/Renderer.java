@@ -58,8 +58,8 @@ public class Renderer {
 
     public void init(Window window) throws Exception {
         shaderProgram = new ShaderProgram();
-        shaderProgram.createVertexShader(Utils.readFile("Moonshot/src/resources/vertex.vs"));
-        shaderProgram.createFragmentShader(Utils.readFile("Moonshot/src/resources/frag.fs"));
+        shaderProgram.createVertexShader(Utils.readFile("Moonshot/src/resources/shaders/vertex.vs"));
+        shaderProgram.createFragmentShader(Utils.readFile("Moonshot/src/resources/shaders/frag.fs"));
         shaderProgram.link();
 
         // Create projection matrix

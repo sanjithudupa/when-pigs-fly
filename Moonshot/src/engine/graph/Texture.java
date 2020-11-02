@@ -10,6 +10,7 @@ import static org.lwjgl.stb.STBImage.*;
 
 
 public class Texture {
+    
     private final int id;
 
     public Texture(String fileName) throws Exception {
