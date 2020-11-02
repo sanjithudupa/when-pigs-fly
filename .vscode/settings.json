@@ -2,6 +2,7 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "Moonshot/lib/lwjgl-3/**/*.jar",
-        "Moonshot/lib/joml/**/*.jar"
+        "Moonshot/lib/joml/**/*.jar",
+        "Moonshot/lib/pngdecoder/**/*.jar"
     ]
 }
