@@ -1,6 +1,5 @@
 package engine;
 
-
 public class Timer {
 
     private double lastLoopTime;

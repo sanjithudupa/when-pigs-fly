@@ -1,13 +1,14 @@
 package engine;
 
+import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
+
 
 public class Window {
     private final String title;
@@ -26,8 +27,8 @@ public class Window {
         this.resized = false;
     }
 
-    public void init(){
-         // Setup an error callback. The default implementation
+    public void init() {
+        // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
 
