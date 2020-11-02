@@ -88,6 +88,9 @@ public class Mesh {
     }
 
     public void render() {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture.getId());
+
         // Draw the mesh
         glBindVertexArray(getVaoId());
 
@@ -106,6 +109,9 @@ public class Mesh {
         for (int vboId : vboIdList) {
             glDeleteBuffers(vboId);
         }
+
+        // Delete the texture
+        this.texture.cleanup();
 
         // Delete the VAO
         glBindVertexArray(0);

@@ -67,6 +67,8 @@ public class Renderer {
         projectionMatrix = new Matrix4f().setPerspective(Renderer.FOV, aspectRatio, Renderer.Z_NEAR, Renderer.Z_FAR);
         shaderProgram.createUniform("projectionMatrix");
         shaderProgram.createUniform("worldMatrix");
+        shaderProgram.createUniform("texture_sampler");
+
     
         window.setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     }
@@ -91,6 +93,8 @@ public class Renderer {
 
         shaderProgram.bind();
         shaderProgram.setUniform("projectionMatrix", projectionMatrix);
+
+        shaderProgram.setUniform("texture_sampler", 0);
 
         // Render each entity
         for(Entity entity : entities) {
