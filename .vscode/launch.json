@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "vmArgs": "-XstartOnFirstThread"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<MoonshotGameJam_ff74a1c9>",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "MoonshotGameJam_ff74a1c9",
+            "vmArgs": "-XstartOnFirstThread"
+        }
+    ]
+}
