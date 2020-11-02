@@ -143,7 +143,7 @@ public class Game implements GameLogic {
     }
     
     @Override
-    public void input(Window window, Mouse mouse) {
+    public void input(Window window, Mouse mouseInput) {
         cameraInc.set(0, 0, 0);
         if (window.isKeyPressed(GLFW_KEY_W)) {
             cameraInc.z = -1;
@@ -161,8 +161,6 @@ public class Game implements GameLogic {
             cameraInc.y = 1;
         }
 
-        System.out.println(mouse.isLeftButtonPressed());
-
         // if () {
         //     System.out.println("hi");
         //     // Vector2f rotVec = mouse.getDisplVec();
@@ -171,10 +169,15 @@ public class Game implements GameLogic {
     }
 
     @Override
-    public void update(float interval, Mouse mouse) {
+    public void update(float interval, Mouse mouseInput) {
          // Update camera position
          camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
-
+        
+         // Update camera based on mouse            
+        if (mouseInput.isRightButtonPressed()) {
+            Vector2f rotVec = mouseInput.getDisplVec();
+            camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
+        }
     }
 
     @Override

@@ -2,29 +2,31 @@ package engine;
 
 import org.joml.Vector2d;
 import org.joml.Vector2f;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Mouse {
-    private final Vector2d previousPos;
+    private Vector2d previousPos;
+    private Vector2d currentPos;
+    private Vector2f displVec;
 
-    private final Vector2d currentPos;
-
-    private final Vector2f displVec;
+    private GLFWCursorPosCallback posCallback;
 
     private boolean inWindow = false;
-
     private boolean leftButtonPressed = false;
-
     private boolean rightButtonPressed = false;
 
     public Mouse(){
         previousPos = new Vector2d(-1, -1);
         currentPos = new Vector2d(0, 0);
         displVec = new Vector2f();
+
     }
 
     public void init(Window window) {
+        glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
         glfwSetCursorPosCallback(window.getWindowHandle(), (windowHandle, xpos, ypos) -> {
             currentPos.x = xpos;
             currentPos.y = ypos;
@@ -32,10 +34,9 @@ public class Mouse {
         glfwSetCursorEnterCallback(window.getWindowHandle(), (windowHandle, entered) -> {
             inWindow = entered;
         });
-        glfwSetMouseButtonCallback(window.getWindowHandle(), (windowHandle, button, action, mode) -> {
-            leftButtonPressed = button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS;
-            rightButtonPressed = button == GLFW_MOUSE_BUTTON_2 && action == GLFW_PRESS;
-        });
+        glfwSetCursorPosCallback(window.getWindowHandle(), posCallback = GLFWCursorPosCallback.create((windowHandle, xpos, ypos) -> {
+            System.out.println(xpos);
+        }));
     }
 
     public Vector2f getDisplVec() {
@@ -57,6 +58,10 @@ public class Mouse {
                 displVec.x = (float) deltay;
             }
         }
+
+        leftButtonPressed = glfwGetMouseButton(window.getWindowHandle(), GLFW_MOUSE_BUTTON_1) == 1 ? true : false;
+        rightButtonPressed = glfwGetMouseButton(window.getWindowHandle(), GLFW_MOUSE_BUTTON_2) == 1 ? true : false;
+        
         previousPos.x = currentPos.x;
         previousPos.y = currentPos.y;
     }
