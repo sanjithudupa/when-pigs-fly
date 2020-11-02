@@ -2,34 +2,35 @@ package main;
 
 import engine.Entity;
 import engine.GameLogic;
+import engine.Mouse;
 import engine.Window;
+import engine.graph.Camera;
 import engine.graph.Mesh;
 import engine.graph.Texture;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.glViewport;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Game implements GameLogic {
+    private static final float MOUSE_SENSITIVITY = 0.2f;
+    private static final float CAMERA_POS_STEP = 0.05f;
 
     private int direction = 0;
     private float color = 0.0f;
 
-    private int displxInc = 0;
-
-    private int displyInc = 0;
-
-    private int displzInc = 0;
-
-    private int scaleInc = 0;
-
+    private final Vector3f cameraInc;
+    private final Camera camera;
     private final Renderer renderer;
 
     private Entity[] entities;
     
     public Game() {
         renderer = new Renderer();
+        camera = new Camera();
+        cameraInc = new Vector3f();
     }
     
     @Override
@@ -142,60 +143,43 @@ public class Game implements GameLogic {
     }
     
     @Override
-    public void input(Window window) {
-        displyInc = 0;
-        displxInc = 0;
-        displzInc = 0;
-        scaleInc = 0;
-        if (window.isKeyPressed(GLFW_KEY_UP)) {
-            displyInc = 1;
-        } else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
-            displyInc = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_LEFT)) {
-            displxInc = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
-            displxInc = 1;
-        } else if (window.isKeyPressed(GLFW_KEY_A)) {
-            displzInc = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_Q)) {
-            displzInc = 1;
-        } else if (window.isKeyPressed(GLFW_KEY_Z)) {
-            scaleInc = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_X)) {
-            scaleInc = 1;
+    public void input(Window window, Mouse mouse) {
+        cameraInc.set(0, 0, 0);
+        if (window.isKeyPressed(GLFW_KEY_W)) {
+            cameraInc.z = -1;
+        } else if (window.isKeyPressed(GLFW_KEY_S)) {
+            cameraInc.z = 1;
         }
+        if (window.isKeyPressed(GLFW_KEY_A)) {
+            cameraInc.x = -1;
+        } else if (window.isKeyPressed(GLFW_KEY_D)) {
+            cameraInc.x = 1;
+        }
+        if (window.isKeyPressed(GLFW_KEY_Z)) {
+            cameraInc.y = -1;
+        } else if (window.isKeyPressed(GLFW_KEY_X)) {
+            cameraInc.y = 1;
+        }
+
+        System.out.println(mouse.isLeftButtonPressed());
+
+        // if () {
+        //     System.out.println("hi");
+        //     // Vector2f rotVec = mouse.getDisplVec();
+        //     // camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
+        // }
     }
 
     @Override
-    public void update(float interval) {
-        for (Entity entity : entities) {
-            // Update position
-            Vector3f itemPos = entity.getPosition();
-            float posx = itemPos.x + displxInc * 0.01f;
-            float posy = itemPos.y + displyInc * 0.01f;
-            float posz = itemPos.z + displzInc * 0.01f;
-            entity.setPosition(posx, posy, posz);
-            
-            // Update scale
-            float scale = entity.getScale();
-            scale += scaleInc * 0.05f;
-            if ( scale < 0 ) {
-                scale = 0;
-            }
-            entity.setScale(scale);
-            
-            // Update rotation angle
-            float rotation = entity.getRotation().z + 1.5f;
-            if ( rotation > 360 ) {
-                rotation = 0;
-            }
-            entity.setRotation(rotation, rotation, rotation);            
-        }
+    public void update(float interval, Mouse mouse) {
+         // Update camera position
+         camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
+
     }
 
     @Override
     public void render(Window window) {
-        renderer.render(window, entities);
+        renderer.render(window, camera, entities);
     }
 
     @Override

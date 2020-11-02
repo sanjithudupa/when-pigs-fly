@@ -30,6 +30,7 @@ import org.lwjgl.system.MemoryUtil;
 import engine.Entity;
 import engine.Utils;
 import engine.Window;
+import engine.graph.Camera;
 import engine.graph.Mesh;
 import engine.graph.ShaderProgram;
 import engine.graph.Transformation;
@@ -66,7 +67,7 @@ public class Renderer {
         float aspectRatio = (float) window.getWidth() / window.getHeight();
         projectionMatrix = new Matrix4f().setPerspective(Renderer.FOV, aspectRatio, Renderer.Z_NEAR, Renderer.Z_FAR);
         shaderProgram.createUniform("projectionMatrix");
-        shaderProgram.createUniform("worldMatrix");
+        shaderProgram.createUniform("modelViewMatrix");
         shaderProgram.createUniform("texture_sampler");
 
     
@@ -77,7 +78,7 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render(Window window, Entity[] entities) {
+    public void render(Window window, Camera camera, Entity[] entities) {
         clear();
 
         if (window.isResized()) {
@@ -96,15 +97,16 @@ public class Renderer {
 
         shaderProgram.setUniform("texture_sampler", 0);
 
+        // Update view Matrix
+        Matrix4f viewMatrix = transformation.getViewMatrix(camera);
+
         // Render each entity
         for(Entity entity : entities) {
             // Set world matrix for this item
-            Matrix4f worldMatrix =
-                transformation.getWorldMatrix(
-                    entity.getPosition(),
-                    entity.getRotation(),
-                    entity.getScale());
-            shaderProgram.setUniform("worldMatrix", worldMatrix);
+            Matrix4f modelViewMatrix = transformation.getModelViewMatrix(entity, viewMatrix);
+            
+            shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
+
             // Render the mes for this game item
             entity.getMesh().render();
         }
