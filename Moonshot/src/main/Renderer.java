@@ -69,6 +69,8 @@ public class Renderer {
         shaderProgram.createUniform("projectionMatrix");
         shaderProgram.createUniform("modelViewMatrix");
         shaderProgram.createUniform("texture_sampler");
+        shaderProgram.createUniform("color");
+        shaderProgram.createUniform("useColor");
 
     
         window.setClearColor(0.25f, 0.5f, 0.0f, 0.0f);
@@ -107,7 +109,9 @@ public class Renderer {
             
             shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
 
-            // Render the mes for this game item
+            shaderProgram.setUniform("color", entity.getMesh().getColor());
+            shaderProgram.setUniform("useColor", entity.getMesh().isTextured() ? 0 : 1);
+
             entity.getMesh().render();
         }
 

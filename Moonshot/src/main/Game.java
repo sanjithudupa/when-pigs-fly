@@ -6,6 +6,7 @@ import engine.Mouse;
 import engine.Window;
 import engine.graph.Camera;
 import engine.graph.Mesh;
+import engine.graph.ModelLoader;
 import engine.graph.Texture;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -134,19 +135,29 @@ public class Game implements GameLogic {
             4, 6, 7, 5, 4, 7,
         };
 
-        Texture texture = new Texture("Moonshot/src/resources/textures/texture.png");
-        Mesh cube = new Mesh(positions, textCoords, indices, texture);
+        // Texture texture = new Texture("Moonshot/src/resources/textures/texture.png");
+        // Mesh cube = new Mesh(positions, textCoords, indices, texture);
+
+        // Entity entity = new Entity(cube);
+        // entity.setPosition(0, 0, -2);
+
+        // Texture texture2 = new Texture("Moonshot/src/resources/textures/texture2.png");
+        // Mesh cube2 = new Mesh(positions, textCoords, indices, texture2);
+
+        // Entity entity1 = new Entity(cube2);
+        // entity.setPosition(0, 1, -1);
+
+        //Mesh mesh = OBJLoader.loadMesh("/models/bunny.obj");
+        Mesh cube = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
+        Texture texture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
+
+        cube.setTexture(texture);
 
         Entity entity = new Entity(cube);
         entity.setPosition(0, 0, -2);
 
-        Texture texture2 = new Texture("Moonshot/src/resources/textures/texture2.png");
-        Mesh cube2 = new Mesh(positions, textCoords, indices, texture2);
 
-        Entity entity1 = new Entity(cube2);
-        entity.setPosition(0, 1, -1);
-
-        entities = new Entity[]{ entity , entity1};
+        entities = new Entity[]{ entity };
 
         camera.setPosition(0, 2, 0);
     }
