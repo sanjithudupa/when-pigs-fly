@@ -140,7 +140,10 @@ public class Game implements GameLogic {
         Entity entity = new Entity(cube);
         entity.setPosition(0, 0, -2);
 
-        Entity entity1 = new Entity(cube);
+        Texture texture2 = new Texture("Moonshot/src/resources/textures/texture2.png");
+        Mesh cube2 = new Mesh(positions, textCoords, indices, texture2);
+
+        Entity entity1 = new Entity(cube2);
         entity.setPosition(0, 1, -1);
 
         entities = new Entity[]{ entity , entity1};
