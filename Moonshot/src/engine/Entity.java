@@ -5,13 +5,19 @@ import org.joml.Vector3f;
 import engine.graph.Mesh;
 
 public class Entity {
-    private final Mesh mesh;
+    private Mesh mesh;
 
     private final Vector3f position;
 
     private float scale;
 
     private final Vector3f rotation;
+
+    public Entity() {
+        position = new Vector3f();
+        scale = 1;
+        rotation = new Vector3f();
+    }
 
     public Entity(Mesh mesh) {
         this.mesh = mesh;

@@ -8,11 +8,9 @@ import engine.Entity;
 public class Transformation {
 
     private final Matrix4f projectionMatrix;
-
     private final Matrix4f viewModelMatrix;
-
     private final Matrix4f viewMatrix;
-
+    private final Matrix4f orthoMatrix;
 
     public Transformation() {
         viewModelMatrix = new Matrix4f();

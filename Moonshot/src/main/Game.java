@@ -8,9 +8,11 @@ import engine.graph.Camera;
 import engine.graph.Mesh;
 import engine.graph.ModelLoader;
 import engine.graph.Texture;
+import engine.graph.Renderer;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.glViewport;
+
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -151,13 +153,15 @@ public class Game implements GameLogic {
         Mesh cube = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
         Texture texture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
 
-        // cube.setTexture(texture);
-        cube.setColor(new Vector3f(1f, 0, 0));
+        cube.setTexture(texture);
+        
         Entity entity = new Entity(cube);
         entity.setPosition(0, 0, -2);
 
 
         entities = new Entity[]{ entity };
+
+        UI ui = new UI("Moonshot/src/resources/textures/Tex_Pig.png");
 
         camera.setPosition(0, 2, 0);
     }
