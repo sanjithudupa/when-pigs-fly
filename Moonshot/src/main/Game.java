@@ -151,8 +151,8 @@ public class Game implements GameLogic {
         Mesh cube = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
         Texture texture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
 
-        cube.setTexture(texture);
-
+        // cube.setTexture(texture);
+        cube.setColor(new Vector3f(1f, 0, 0));
         Entity entity = new Entity(cube);
         entity.setPosition(0, 0, -2);
 
