@@ -32,8 +32,9 @@ public class GameCanvas implements Canvas {
         Text text = new Text("hello");
 
         text.setCentered(true);
+        text.setOffset(0, 20);
 
-        entities = new UIElement[]{ image };
+        entities = new UIElement[]{ text, image };
     }
 
     @Override
