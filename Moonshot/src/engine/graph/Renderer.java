@@ -25,6 +25,8 @@ import static org.lwjgl.opengl.GL11.glDrawElements;
 import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
+import org.joml.Vector4d;
+import org.joml.Vector4f;
 import org.lwjgl.system.MemoryUtil;
 
 import engine.Entity;
@@ -81,17 +83,28 @@ public class Renderer {
 
     private void setupUIShader() throws Exception {
         uiShaderProgram = new ShaderProgram();
-        uiShaderProgram.createVertexShader(Utils.readFile("/shaders/ui_vertex.vs"));
-        uiShaderProgram.createFragmentShader(Utils.readFile("/shaders/ui_fragment.fs"));
+        uiShaderProgram.createVertexShader(Utils.readFile("Moonshot/src/resources/shaders/ui_vertex.vs"));
+        uiShaderProgram.createFragmentShader(Utils.readFile("Moonshot/src/resources/shaders/ui_fragment.fs"));
         uiShaderProgram.link();
 
         // Create uniforms for Ortographic-model projection matrix and base colour
         uiShaderProgram.createUniform("projModelMatrix");
-        uiShaderProgram.createUniform("color");
+        // uiShaderProgram.createUniform("color");
     }
 
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    public void render(Window window, Camera camera, Entity[] entities) {
+        clear();
+
+        if (window.isResized()) {
+            glViewport(0, 0, window.getWidth(), window.getHeight());
+            window.setResized(false);
+        }
+
+        renderScene(window, camera, entities);
     }
 
     public void render(Window window, Camera camera, Entity[] entities, Canvas ui) {
@@ -138,12 +151,12 @@ public class Renderer {
         uiShaderProgram.bind();
 
         Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-        for (Entity entity : ui.getGameItems()) {
+        for (Entity entity : ui.getEntities()) {
             Mesh mesh = entity.getMesh();
             // Set ortohtaphic and model matrix for this HUD item
             Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(entity, ortho);
+            // uiShaderProgram.setUniform("color", new Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
             uiShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-            uiShaderProgram.setUniform("colour", entity.getMesh().getMaterial().getAmbientColour());
 
             // Render the mesh for this HUD item
             mesh.render();

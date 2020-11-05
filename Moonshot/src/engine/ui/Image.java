@@ -73,6 +73,7 @@ public class Image extends Entity {
         float[] textCoordsArr = Utils.listToArray(textCoords);
         int[] indicesArr = indices.stream().mapToInt(i->i).toArray();
         Mesh mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
+        System.out.println(mesh.getVaoId());
         mesh.setTexture(texture);
         return mesh;
     }

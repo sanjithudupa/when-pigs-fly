@@ -28,6 +28,8 @@ public class Game implements GameLogic {
     private final Camera camera;
     private final Renderer renderer;
 
+    private UI ui;
+
     private Entity[] entities;
     
     public Game() {
@@ -161,7 +163,7 @@ public class Game implements GameLogic {
 
         entities = new Entity[]{ entity };
 
-        UI ui = new UI("Moonshot/src/resources/textures/Tex_Pig.png");
+        ui = new UI("Moonshot/src/resources/textures/Tex_Pig.png");
 
         camera.setPosition(0, 2, 0);
     }
@@ -207,7 +209,7 @@ public class Game implements GameLogic {
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, entities);
+        renderer.render(window, camera, entities, ui);
     }
 
     @Override
