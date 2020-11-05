@@ -140,7 +140,7 @@ public class Renderer {
         uiShaderProgram.bind();
 
         Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-        for (Entity entity : ui.getEntities()) {
+        for (Entity entity : ui.getElements()) {
             Mesh mesh = entity.getMesh();
             // Set ortohtaphic and model matrix for this HUD item
             Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(entity, ortho);
