@@ -92,6 +92,17 @@ public class Game implements GameLogic {
             // V19: V2 repeated
             0.5f, -0.5f, 0.5f,
         };
+
+        float[] positions2 = new float[]{
+            -0.5f,  0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f,
+             0.5f, -0.5f, 0.0f,
+             0.5f,  0.5f, 0.0f,
+        };
+        int[] indices2 = new int[]{
+            0, 1, 3, 3, 1, 2,
+        };
+
         float[] textCoords = new float[]{
             0.0f, 0.0f,
             0.0f, 0.5f,
@@ -139,8 +150,10 @@ public class Game implements GameLogic {
             4, 6, 7, 5, 4, 7,
         };
 
-        // Texture texture = new Texture("Moonshot/src/resources/textures/texture.png");
-        // Mesh cube = new Mesh(positions, textCoords, indices, texture);
+        Texture texture = new Texture("Moonshot/src/resources/textures/texture.png");
+        Mesh cube = new Mesh(positions2, textCoords, new float[0], indices2);
+
+        cube.setTexture(texture);
 
         // Entity entity = new Entity(cube);
         // entity.setPosition(0, 0, -2);
@@ -152,10 +165,10 @@ public class Game implements GameLogic {
         // entity.setPosition(0, 1, -1);
 
         //Mesh mesh = OBJLoader.loadMesh("/models/bunny.obj");
-        Mesh cube = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        Texture texture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
+        // Mesh cube = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
+        // Texture texture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
 
-        cube.setTexture(texture);
+        // cube.setTexture(texture);
         
         Entity entity = new Entity(cube);
         entity.setPosition(0, 0, -2);
@@ -209,7 +222,7 @@ public class Game implements GameLogic {
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, entities, ui);
+        renderer.render(window, camera, entities);
     }
 
     @Override
