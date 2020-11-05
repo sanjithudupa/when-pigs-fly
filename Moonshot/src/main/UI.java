@@ -18,7 +18,12 @@ public class UI implements Canvas {
 
     public UI(String text) throws Exception {
         this.statusTextItem = new Text(text);
-        entities = new Entity[]{statusTextItem};
+
+        Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
+        image.setScale(10);
+
+        image.setPosition(10, 20, 0);
+        entities = new Entity[]{image};
     }
 
     public void setStatusText(String statusText) {
