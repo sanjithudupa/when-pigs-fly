@@ -3,12 +3,11 @@ package engine.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Entity;
 import engine.Utils;
 import engine.graph.Mesh;
 import engine.graph.Texture;
 
-public class Image extends Entity {
+public class Image extends UIElement {
 
     private static final float ZPOS = 0.0f;
     private String filename;

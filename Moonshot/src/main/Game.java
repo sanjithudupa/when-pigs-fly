@@ -237,6 +237,7 @@ public class Game implements GameLogic {
     @Override
     public void render(Window window) {
         renderer.render(window, camera, entities, ui);
+        ui.updateSize(window);
     }
 
     @Override
