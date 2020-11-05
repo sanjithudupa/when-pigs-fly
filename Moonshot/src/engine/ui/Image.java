@@ -23,6 +23,8 @@ public class Image extends Entity {
         Texture texture = new Texture(filename);
         this.height = texture.getHeight();
         this.width = texture.getWidth();
+        this.setMesh(buildMesh(texture));
+        this.setScale(10);
     }
 
     private Mesh buildMesh(Texture texture) {
@@ -32,11 +34,22 @@ public class Image extends Entity {
         float[] normals   = new float[0];
         List<Integer> indices   = new ArrayList<>();
 
-        
+        float[] textCoordsA = new float[]{
+            0.0f, 0.0f,
+            0.0f, 0.5f,
+            0.5f, 0.5f,
+            0.5f, 0.0f,
+            
+            0.0f, 0.0f,
+            0.5f, 0.0f,
+            0.0f, 0.5f,
+            0.5f, 0.5f,
+        };
+
         // Left Top vertex
         positions.add((float)this.width); // x
         positions.add(0.0f); //y
-        positions.add(0.0f); //z
+        positions.add(2.0f); //z
         textCoords.add(1.0f);
         textCoords.add(0.0f);
         indices.add(4);
@@ -44,7 +57,7 @@ public class Image extends Entity {
         // Left Bottom vertex
         positions.add((float)this.width); // x
         positions.add((float)this.height); //y
-        positions.add(0.0f); //z
+        positions.add(2.0f); //z
         textCoords.add(0.0f);
         textCoords.add(1.0f);
         indices.add(5);
@@ -52,7 +65,7 @@ public class Image extends Entity {
         // Right Bottom vertex
         positions.add((float)this.width); // x
         positions.add((float)this.height); //y
-        positions.add(0.0f); //z
+        positions.add(2.0f); //z
         textCoords.add(1.0f);
         textCoords.add(1.0f);
         indices.add(6);
@@ -60,7 +73,7 @@ public class Image extends Entity {
         // Right Top vertex
         positions.add((float)this.width); // x
         positions.add(0.0f); //y
-        positions.add(0.0f); //z
+        positions.add(2.0f); //z
         textCoords.add(1.0f);
         textCoords.add(1.0f);
         indices.add(7);

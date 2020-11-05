@@ -3,6 +3,7 @@ package main;
 import engine.Entity;
 import engine.GameLogic;
 import engine.Mouse;
+import engine.Timer;
 import engine.Window;
 import engine.graph.Camera;
 import engine.graph.Mesh;
@@ -37,123 +38,125 @@ public class Game implements GameLogic {
         camera = new Camera();
         cameraInc = new Vector3f();
     }
+
+    Entity entity;
     
     @Override
     public void init(Window window) throws Exception {
         renderer.init(window);
 
-        float[] positions = new float[] {
-            // V0
-            -0.5f, 0.5f, 0.5f,
-            // V1
-            -0.5f, -0.5f, 0.5f,
-            // V2
-            0.5f, -0.5f, 0.5f,
-            // V3
-            0.5f, 0.5f, 0.5f,
-            // V4
-            -0.5f, 0.5f, -0.5f,
-            // V5
-            0.5f, 0.5f, -0.5f,
-            // V6
-            -0.5f, -0.5f, -0.5f,
-            // V7
-            0.5f, -0.5f, -0.5f,
+        // float[] positions = new float[] {
+        //     // V0
+        //     -0.5f, 0.5f, 0.5f,
+        //     // V1
+        //     -0.5f, -0.5f, 0.5f,
+        //     // V2
+        //     0.5f, -0.5f, 0.5f,
+        //     // V3
+        //     0.5f, 0.5f, 0.5f,
+        //     // V4
+        //     -0.5f, 0.5f, -0.5f,
+        //     // V5
+        //     0.5f, 0.5f, -0.5f,
+        //     // V6
+        //     -0.5f, -0.5f, -0.5f,
+        //     // V7
+        //     0.5f, -0.5f, -0.5f,
             
-            // For text coords in top face
-            // V8: V4 repeated
-            -0.5f, 0.5f, -0.5f,
-            // V9: V5 repeated
-            0.5f, 0.5f, -0.5f,
-            // V10: V0 repeated
-            -0.5f, 0.5f, 0.5f,
-            // V11: V3 repeated
-            0.5f, 0.5f, 0.5f,
+        //     // For text coords in top face
+        //     // V8: V4 repeated
+        //     -0.5f, 0.5f, -0.5f,
+        //     // V9: V5 repeated
+        //     0.5f, 0.5f, -0.5f,
+        //     // V10: V0 repeated
+        //     -0.5f, 0.5f, 0.5f,
+        //     // V11: V3 repeated
+        //     0.5f, 0.5f, 0.5f,
 
-            // For text coords in right face
-            // V12: V3 repeated
-            0.5f, 0.5f, 0.5f,
-            // V13: V2 repeated
-            0.5f, -0.5f, 0.5f,
+        //     // For text coords in right face
+        //     // V12: V3 repeated
+        //     0.5f, 0.5f, 0.5f,
+        //     // V13: V2 repeated
+        //     0.5f, -0.5f, 0.5f,
 
-            // For text coords in left face
-            // V14: V0 repeated
-            -0.5f, 0.5f, 0.5f,
-            // V15: V1 repeated
-            -0.5f, -0.5f, 0.5f,
+        //     // For text coords in left face
+        //     // V14: V0 repeated
+        //     -0.5f, 0.5f, 0.5f,
+        //     // V15: V1 repeated
+        //     -0.5f, -0.5f, 0.5f,
 
-            // For text coords in bottom face
-            // V16: V6 repeated
-            -0.5f, -0.5f, -0.5f,
-            // V17: V7 repeated
-            0.5f, -0.5f, -0.5f,
-            // V18: V1 repeated
-            -0.5f, -0.5f, 0.5f,
-            // V19: V2 repeated
-            0.5f, -0.5f, 0.5f,
-        };
+        //     // For text coords in bottom face
+        //     // V16: V6 repeated
+        //     -0.5f, -0.5f, -0.5f,
+        //     // V17: V7 repeated
+        //     0.5f, -0.5f, -0.5f,
+        //     // V18: V1 repeated
+        //     -0.5f, -0.5f, 0.5f,
+        //     // V19: V2 repeated
+        //     0.5f, -0.5f, 0.5f,
+        // };
 
-        float[] positions2 = new float[]{
-            -0.5f,  0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f,
-        };
-        int[] indices2 = new int[]{
-            0, 1, 3, 3, 1, 2,
-        };
+        // float[] positions2 = new float[]{
+        //     -0.5f,  0.5f, 0.0f,
+        //     -0.5f, -0.5f, 0.0f,
+        //      0.5f, -0.5f, 0.0f,
+        //      0.5f,  0.5f, 0.0f,
+        // };
+        // int[] indices2 = new int[]{
+        //     0, 1, 3, 3, 1, 2,
+        // };
 
-        float[] textCoords = new float[]{
-            0.0f, 0.0f,
-            0.0f, 0.5f,
-            0.5f, 0.5f,
-            0.5f, 0.0f,
+        // float[] textCoords = new float[]{
+        //     0.0f, 0.0f,
+        //     0.0f, 0.5f,
+        //     0.5f, 0.5f,
+        //     0.5f, 0.0f,
             
-            0.0f, 0.0f,
-            0.5f, 0.0f,
-            0.0f, 0.5f,
-            0.5f, 0.5f,
+        //     0.0f, 0.0f,
+        //     0.5f, 0.0f,
+        //     0.0f, 0.5f,
+        //     0.5f, 0.5f,
             
-            // For text coords in top face
-            0.0f, 0.5f,
-            0.5f, 0.5f,
-            0.0f, 1.0f,
-            0.5f, 1.0f,
+        //     // For text coords in top face
+        //     0.0f, 0.5f,
+        //     0.5f, 0.5f,
+        //     0.0f, 1.0f,
+        //     0.5f, 1.0f,
 
-            // For text coords in right face
-            0.0f, 0.0f,
-            0.0f, 0.5f,
+        //     // For text coords in right face
+        //     0.0f, 0.0f,
+        //     0.0f, 0.5f,
 
-            // For text coords in left face
-            0.5f, 0.0f,
-            0.5f, 0.5f,
+        //     // For text coords in left face
+        //     0.5f, 0.0f,
+        //     0.5f, 0.5f,
 
-            // For text coords in bottom face
-            0.5f, 0.0f,
-            1.0f, 0.0f,
-            0.5f, 0.5f,
-            1.0f, 0.5f,
-        };
+        //     // For text coords in bottom face
+        //     0.5f, 0.0f,
+        //     1.0f, 0.0f,
+        //     0.5f, 0.5f,
+        //     1.0f, 0.5f,
+        // };
 
-        int[] indices = new int[]{
-            // Front face
-             0, 1, 3, 3, 1, 2,
-            // Top Face
-            8, 10, 11, 9, 8, 11,
-            // Right face
-            12, 13, 7, 5, 12, 7,
-            // Left face
-            14, 15, 6, 4, 14, 6,
-            // Bottom face
-            16, 18, 19, 17, 16, 19,
-            // Back face
-            4, 6, 7, 5, 4, 7,
-        };
+        // int[] indices = new int[]{
+        //     // Front face
+        //      0, 1, 3, 3, 1, 2,
+        //     // Top Face
+        //     8, 10, 11, 9, 8, 11,
+        //     // Right face
+        //     12, 13, 7, 5, 12, 7,
+        //     // Left face
+        //     14, 15, 6, 4, 14, 6,
+        //     // Bottom face
+        //     16, 18, 19, 17, 16, 19,
+        //     // Back face
+        //     4, 6, 7, 5, 4, 7,
+        // };
 
-        Texture texture = new Texture("Moonshot/src/resources/textures/texture.png");
-        Mesh cube = new Mesh(positions2, textCoords, new float[0], indices2);
+        // Texture texture = new Texture("Moonshot/src/resources/textures/texture.png");
+        // Mesh cube = new Mesh(positions2, textCoords, new float[0], indices2);
 
-        cube.setTexture(texture);
+        // cube.setTexture(texture);
 
         // Entity entity = new Entity(cube);
         // entity.setPosition(0, 0, -2);
@@ -165,16 +168,15 @@ public class Game implements GameLogic {
         // entity.setPosition(0, 1, -1);
 
         //Mesh mesh = OBJLoader.loadMesh("/models/bunny.obj");
-        // Mesh cube = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        // Texture texture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
+        Mesh pig = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
+        Texture pigTexture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
 
-        // cube.setTexture(texture);
+        pig.setTexture(pigTexture);
         
-        Entity entity = new Entity(cube);
-        entity.setPosition(0, 0, -2);
+        // entity = new Entity(cube);
+        Entity pigE = new Entity(pig);
 
-
-        entities = new Entity[]{ entity };
+        entities = new Entity[]{ pigE };
 
         ui = new UI("Moonshot/src/resources/textures/Tex_Pig.png");
 
@@ -207,6 +209,9 @@ public class Game implements GameLogic {
         // }
     }
 
+    // int iterations = 0;
+    // boolean growing = true;
+
     @Override
     public void update(float interval, Mouse mouseInput) {
          // Update camera position
@@ -218,11 +223,20 @@ public class Game implements GameLogic {
             System.out.println(rotVec.x + "," + rotVec.y);
             camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
         }
+
+        // int d = 5;
+        // float theta = camera.getRotation().y();
+
+        // float x = (float)(d * Math.toDegrees(Math.sin(theta)));
+        // float z = (float)(d * Math.toDegrees(Math.cos(theta)));
+
+        // entity.setRotation(0, camera.getPosition().y, z);
+        // entity.setPosition(camera.getPosition().x, camera.getPosition().y, camera.getPosition().z - d);
     }
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, entities);
+        renderer.render(window, camera, entities, ui);
     }
 
     @Override

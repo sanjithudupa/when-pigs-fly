@@ -89,22 +89,11 @@ public class Renderer {
 
         // Create uniforms for Ortographic-model projection matrix and base colour
         uiShaderProgram.createUniform("projModelMatrix");
-        // uiShaderProgram.createUniform("color");
+        uiShaderProgram.createUniform("color");
     }
 
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-
-    public void render(Window window, Camera camera, Entity[] entities) {
-        clear();
-
-        if (window.isResized()) {
-            glViewport(0, 0, window.getWidth(), window.getHeight());
-            window.setResized(false);
-        }
-
-        renderScene(window, camera, entities);
     }
 
     public void render(Window window, Camera camera, Entity[] entities, Canvas ui) {
@@ -155,8 +144,8 @@ public class Renderer {
             Mesh mesh = entity.getMesh();
             // Set ortohtaphic and model matrix for this HUD item
             Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(entity, ortho);
-            // uiShaderProgram.setUniform("color", new Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
             uiShaderProgram.setUniform("projModelMatrix", projModelMatrix);
+            uiShaderProgram.setUniform("color", new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 
             // Render the mesh for this HUD item
             mesh.render();
