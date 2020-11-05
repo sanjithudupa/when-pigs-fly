@@ -178,7 +178,7 @@ public class Game implements GameLogic {
 
         entities = new Entity[]{ entity };
 
-        ui = new GameCanvas("hello");
+        ui = new GameCanvas();
 
         camera.setPosition(0, 2, 0);
     }

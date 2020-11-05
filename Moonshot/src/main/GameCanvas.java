@@ -18,26 +18,22 @@ public class GameCanvas implements Canvas {
 
     private final UIElement[] entities;
     private static Vector2f center = new Vector2f(0, 0);
+    
 
-    private final Text statusTextItem;
-    Image image;
+    public GameCanvas() throws Exception {
 
-    public GameCanvas(String text) throws Exception {
-        this.statusTextItem = new Text(text);
-
-        image = new Image("Moonshot/src/resources/textures/tex_pig.png");
+        Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
         image.setScale(10);
 
         image.setCentered(true);
-        image.setPercentage(true);
 
-        image.setOffset(300, 0);
+        image.setOffset(0, 0);
 
-        entities = new UIElement[]{  };
-    }
+        Text text = new Text("hello");
 
-    public void setStatusText(String statusText) {
-        this.statusTextItem.setText(statusText);
+        text.setCentered(true);
+
+        entities = new UIElement[]{ image };
     }
 
     @Override

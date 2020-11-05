@@ -19,11 +19,18 @@ public interface Canvas {
     default public void update(Window window) {
         for(UIElement element : getElements()) {
             Vector2f position = new Vector2f();
-            position.x = (element.isCentered() ? window.getWidth()/2 - element.getBbox().x/2 : 0) + (element.isCentered() ? element.getOffset().x : element.getPosition().x);
-            position.x = (element.isCentered() ? window.getHeight()/2 - element.getBbox().y/2 : 0) + (element.isCentered() ? element.getOffset().y : element.getPosition().y);
+            Vector2f offset = element.getOffset();
+
+            if(element.isPercentage()) {
+                offset.x = (element.getOffset().x * window.getWidth());
+                offset.y = (element.getOffset().y * window.getHeight());
+            }
+
+            position.x = (element.isCentered() ? window.getWidth()/2 - element.getBbox().x/2 : 0) + (element.isCentered() ? offset.x : element.getPosition().x);
+            position.y = (element.isCentered() ? window.getHeight()/2 - element.getBbox().y/2 : 0) + (element.isCentered() ? offset.y : element.getPosition().y);
             
             if(element.isCentered()) {
-                element.setPosition(window.getWidth()/2 - element.getBbox().x/2 + element.getOffset().x, window.getHeight()/2 - element.getBbox().y/2 + element.getOffset().y, 0.0f);
+                element.setPosition(position.x, position.y, 0.0f);
             }
         }
     }
