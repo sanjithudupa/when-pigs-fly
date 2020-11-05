@@ -9,25 +9,24 @@ import engine.Utils;
 import engine.graph.Mesh;
 import engine.graph.Texture;
 
-public class TextItem extends Entity {
+public class Text extends Entity {
 
     private static final float ZPOS = 0.0f;
+    private static final int FONT_COLS = 16;
+    private static final int FONT_ROWS = 16;
+
+    private static final String FONT_TEXTURE = "Moonshot/src/resources/textures/font_texture.png";
 
     private static final int VERTICES_PER_QUAD = 4;
 
     private String text;
     
-    private final int numCols;
     
-    private final int numRows;
-    
-    public TextItem(String text, String fontFileName, int numCols, int numRows) throws Exception {
+    public Text(String text) throws Exception {
         super();
         this.text = text;
-        this.numCols = numCols;
-        this.numRows = numRows;
-        Texture texture = new Texture(fontFileName);
-        this.setMesh(buildMesh(texture, numCols, numRows));
+        Texture texture = new Texture(FONT_TEXTURE);
+        this.setMesh(buildMesh(texture, FONT_COLS, FONT_ROWS));
     }
 
     private Mesh buildMesh(Texture texture, int numCols, int numRows) {
@@ -102,6 +101,6 @@ public class TextItem extends Entity {
         this.text = text;
         Texture texture = this.getMesh().getTexture();
         this.getMesh().deleteBuffers();
-        this.setMesh(buildMesh(texture, numCols, numRows));
+        this.setMesh(buildMesh(texture, FONT_COLS, FONT_ROWS));
     }
 }

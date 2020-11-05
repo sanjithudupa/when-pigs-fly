@@ -8,22 +8,16 @@ import engine.graph.Mesh;
 import engine.graph.Texture;
 import engine.ui.Canvas;
 import engine.ui.Image;
-import engine.ui.TextItem;
+import engine.ui.Text;
 
 public class UI implements Canvas {
 
-    private static final int FONT_COLS = 16;
-    
-    private static final int FONT_ROWS = 16;
-
-    private static final String FONT_TEXTURE = "Moonshot/src/resources/textures/font_texture.png";
-
     private final Entity[] entities;
 
-    private final TextItem statusTextItem;
+    private final Text statusTextItem;
 
-    public UI(String statusText) throws Exception {
-        this.statusTextItem = new TextItem(statusText, FONT_TEXTURE, FONT_COLS, FONT_ROWS);
+    public UI(String text) throws Exception {
+        this.statusTextItem = new Text(text);
         entities = new Entity[]{statusTextItem};
     }
 
