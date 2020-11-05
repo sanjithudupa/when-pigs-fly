@@ -178,7 +178,7 @@ public class Game implements GameLogic {
 
         entities = new Entity[]{ pigE };
 
-        ui = new UI("Moonshot/src/resources/textures/Tex_Pig.png");
+        ui = new UI("hello");
 
         camera.setPosition(0, 2, 0);
     }
