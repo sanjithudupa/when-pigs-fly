@@ -4,6 +4,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import engine.Entity;
+import engine.Mouse;
 import engine.Window;
 
 public interface Canvas {
@@ -15,6 +16,8 @@ public interface Canvas {
             entity.getMesh().cleanUp();
         }
     }
+
+    public void input(Mouse input);
 
     default public void update(Window window) {
         for(UIElement element : getElements()) {

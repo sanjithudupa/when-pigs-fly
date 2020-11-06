@@ -214,8 +214,8 @@ public class Game implements GameLogic {
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-         // Update camera position
-         camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
+        // Update camera position
+        camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
         
          // Update camera based on mouse            
         if (mouseInput.isRightButtonPressed()) {
@@ -223,14 +223,7 @@ public class Game implements GameLogic {
             camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
         }
 
-        // int d = 5;
-        // float theta = camera.getRotation().y();
-
-        // float x = (float)(d * Math.toDegrees(Math.sin(theta)));
-        // float z = (float)(d * Math.toDegrees(Math.cos(theta)));
-
-        // entity.setRotation(0, camera.getPosition().y, z);
-        // entity.setPosition(camera.getPosition().x, camera.getPosition().y, camera.getPosition().z - d);
+        ui.input(mouseInput);
     }
 
     @Override

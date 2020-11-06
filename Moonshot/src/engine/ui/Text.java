@@ -7,6 +7,7 @@ import java.util.List;
 import org.joml.Vector2f;
 
 import engine.Entity;
+import engine.Mouse;
 import engine.Utils;
 import engine.graph.Mesh;
 import engine.graph.Texture;
@@ -116,4 +117,7 @@ public class Text extends UIElement {
     public Vector2f getBbox() {
         return bbox;
     }
+
+    @Override
+    public void input(Mouse mouse) { }
 }

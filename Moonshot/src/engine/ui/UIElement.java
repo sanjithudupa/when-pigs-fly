@@ -4,6 +4,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import engine.Entity;
+import engine.Mouse;
 
 public abstract class UIElement extends Entity {
     private Vector2f offset = new Vector2f(0.0f, 0.0f);
@@ -42,4 +43,6 @@ public abstract class UIElement extends Entity {
     public void setCentered(boolean centered) {
         this.centered = centered;
     }
+
+    public abstract void input(Mouse mouse);
 }

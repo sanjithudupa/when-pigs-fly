@@ -6,9 +6,11 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import engine.Entity;
+import engine.Mouse;
 import engine.Window;
 import engine.graph.Mesh;
 import engine.graph.Texture;
+import engine.ui.Button;
 import engine.ui.Canvas;
 import engine.ui.Image;
 import engine.ui.Text;
@@ -18,28 +20,40 @@ public class GameCanvas implements Canvas {
 
     private final UIElement[] entities;
     private static Vector2f center = new Vector2f(0, 0);
-    
 
     public GameCanvas() throws Exception {
 
-        Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
-        image.setScale(10);
+        // Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
+        // image.setScale(10);
 
-        image.setCentered(true);
+        // image.setCentered(true);
 
-        image.setOffset(0, 0);
+        // image.setOffset(0, 0);
 
-        Text text = new Text("hello");
+        // Text text = new Text("hello");
 
-        text.setCentered(true);
-        text.setOffset(0, 20);
+        // text.setCentered(true);
+        // text.setOffset(0, 20);
 
-        entities = new UIElement[]{ text, image };
+        Button button = new Button("Moonshot/src/resources/textures/tex_pig.png");
+        button.setScale(10);
+        button.setCentered(true);
+        button.setOffset(0, 0);
+
+        entities = new UIElement[] { button };
     }
 
     @Override
     public UIElement[] getElements() {
         return entities;
+    }
+
+    @Override
+    public void input(Mouse input) {
+        for(UIElement element : getElements()){
+            element.input(input);
+        }
+
     }
 
     // @Override

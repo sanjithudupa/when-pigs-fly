@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joml.Vector2f;
 
+import engine.Mouse;
 import engine.Utils;
 import engine.graph.Mesh;
 import engine.graph.Texture;
@@ -88,5 +89,8 @@ public class Image extends UIElement {
     public Vector2f getBbox() {
         return new Vector2f(width * getScale(), height * getScale());
     }
+
+    @Override
+    public void input(Mouse mouse) { }
     
 }
