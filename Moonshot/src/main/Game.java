@@ -1,7 +1,6 @@
 package main;
 
 import engine.Entity;
-import engine.GameEngine;
 import engine.GameLogic;
 import engine.Mouse;
 import engine.Timer;
