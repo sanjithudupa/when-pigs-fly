@@ -13,14 +13,12 @@ import engine.graph.Texture;
 public class Image extends UIElement {
 
     private static final float ZPOS = 0.0f;
-    private String filename;
 
     private final int width;
     private final int height;
 
     public Image(String filename) throws Exception {
         super();
-        this.filename = filename;
         Texture texture = new Texture(filename);
 
         this.width = texture.getWidth();

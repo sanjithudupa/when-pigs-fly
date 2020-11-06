@@ -1,25 +1,12 @@
 package main;
 
-import javax.sound.midi.SysexMessage;
-
-import org.joml.Vector2f;
-import org.joml.Vector4f;
-
-import engine.Entity;
 import engine.Mouse;
-import engine.Window;
-import engine.graph.Mesh;
-import engine.graph.Texture;
-import engine.ui.Button;
-import engine.ui.Canvas;
-import engine.ui.Image;
-import engine.ui.Text;
+import engine.ui.*;
 import engine.ui.UIElement;
 
 public class GameCanvas implements Canvas {
 
     private final UIElement[] entities;
-    private static Vector2f center = new Vector2f(0, 0);
 
     public GameCanvas() throws Exception {
 

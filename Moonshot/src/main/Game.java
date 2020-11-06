@@ -3,7 +3,6 @@ package main;
 import engine.Entity;
 import engine.GameLogic;
 import engine.Mouse;
-import engine.Timer;
 import engine.Window;
 import engine.graph.Camera;
 import engine.graph.Mesh;
@@ -12,7 +11,6 @@ import engine.graph.Texture;
 import engine.graph.Renderer;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.glViewport;
 
 
 import org.joml.Vector2f;

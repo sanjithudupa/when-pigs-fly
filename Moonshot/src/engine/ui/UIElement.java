@@ -1,7 +1,6 @@
 package engine.ui;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 import engine.Entity;
 import engine.Mouse;
@@ -11,8 +10,6 @@ public abstract class UIElement extends Entity {
 
     private boolean centered;
     private boolean percentage;
-
-    private Vector2f bbox;
 
     public Vector2f getOffset() {
         return offset;
@@ -31,10 +28,6 @@ public abstract class UIElement extends Entity {
     }
 
     public abstract Vector2f getBbox();
-
-    public void setBbox(Vector2f bbox) {
-        this.bbox = bbox;
-    }
     
     public boolean isCentered() {
         return centered;

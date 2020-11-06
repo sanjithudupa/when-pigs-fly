@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.joml.Vector2f;
 
-import engine.Entity;
 import engine.Mouse;
 import engine.Utils;
 import engine.graph.Mesh;

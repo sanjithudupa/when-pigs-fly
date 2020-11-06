@@ -3,7 +3,6 @@ package engine;
 import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -13,8 +12,6 @@ public class Mouse {
     private Vector2d previousPos;
     private Vector2d currentPos;
     private Vector2f displVec;
-
-    private GLFWCursorPosCallback posCallback;
 
     private boolean inWindow = true;
     private boolean leftButtonPressed = false;
