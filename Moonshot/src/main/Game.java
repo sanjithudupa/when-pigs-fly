@@ -1,8 +1,10 @@
 package main;
 
 import engine.Entity;
+import engine.GameEngine;
 import engine.GameLogic;
 import engine.Mouse;
+import engine.Timer;
 import engine.Window;
 import engine.graph.Camera;
 import engine.graph.Mesh;
@@ -20,11 +22,14 @@ public class Game implements GameLogic {
     private static final float MOUSE_SENSITIVITY = 0.2f;
     private static final float CAMERA_POS_STEP = 0.05f;
 
+    private final float fadeTime = 1.0f;
+
     private final Vector3f cameraMotion;
     private Vector2f rotVec = new Vector2f(0, 0);
 
     private final Camera camera;
     private final Renderer renderer;
+    private final Timer timer;
 
     private GameCanvas ui;
 
@@ -35,6 +40,7 @@ public class Game implements GameLogic {
         renderer = new Renderer();
         camera = new Camera();
         cameraMotion = new Vector3f();
+        timer = new Timer();
     }
     
     @Override
@@ -52,6 +58,8 @@ public class Game implements GameLogic {
         ui = new GameCanvas();
 
         camera.setPosition(0, 0, 0);
+
+        timer.init();
     }
     
     @Override
@@ -83,8 +91,7 @@ public class Game implements GameLogic {
         
     }
 
-    // int iterations = 0;
-    // boolean growing = true;
+    int iterations = 0;
 
     @Override
     public void update(float interval, Mouse mouseInput) {
@@ -92,6 +99,10 @@ public class Game implements GameLogic {
         camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
 
         ui.input(mouseInput);
+
+        iterations++;
+
+        float timePassed = iterations/(float)GameEngine.TARGET_FPS;
     }
 
     @Override

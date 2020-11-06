@@ -8,6 +8,8 @@ import engine.Mouse;
 public abstract class UIElement extends Entity {
     private Vector2f offset = new Vector2f(0.0f, 0.0f);
 
+    private float opacity = 1.0f;
+
     private boolean centered;
     private boolean percentage;
 
@@ -15,7 +17,15 @@ public abstract class UIElement extends Entity {
         return offset;
     }
 
-    public boolean isPercentage() {
+    public float getOpacity() {
+		return opacity;
+	}
+
+	public void setOpacity(float opacity) {
+		this.opacity = opacity;
+	}
+
+	public boolean isPercentage() {
         return percentage;
     }
 

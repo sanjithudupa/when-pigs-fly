@@ -12,6 +12,7 @@ import engine.Entity;
 import engine.Utils;
 import engine.Window;
 import engine.ui.Canvas;
+import engine.ui.UIElement;
 
 public class Renderer {
     private ShaderProgram sceneShaderProgram;
@@ -108,12 +109,12 @@ public class Renderer {
         uiShaderProgram.bind();
 
         Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-        for (Entity entity : ui.getElements()) {
+        for (UIElement entity : ui.getElements()) {
             Mesh mesh = entity.getMesh();
             // Set ortohtaphic and model matrix for this HUD item
             Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(entity, ortho);
             uiShaderProgram.setUniform("projModelMatrix", projModelMatrix);
-            uiShaderProgram.setUniform("color", new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
+            uiShaderProgram.setUniform("color", new Vector4f(1.0f, 1.0f, 1.0f, entity.getOpacity()));
 
             // Render the mesh for this HUD item
             mesh.render();
