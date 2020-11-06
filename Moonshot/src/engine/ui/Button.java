@@ -20,7 +20,6 @@ public class Button extends Image {
         // System.out.println(topLeft.x + ", " + topLeft.y);
         // System.out.println(this.getBbox().x + ", " + this.getBbox().y);
         boolean inX = mouse.getPosition().x > topLeft.x && mouse.getPosition().x < topLeft.x + this.getBbox().x;
-        System.out.println(inX);
 
         // System.out.println(mouse.getPosition().x + ", " + mouse.getPosition().x);
         

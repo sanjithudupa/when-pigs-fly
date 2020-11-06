@@ -23,24 +23,11 @@ public class GameCanvas implements Canvas {
 
     public GameCanvas() throws Exception {
 
-        // Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
-        // image.setScale(10);
+        Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
+        image.setScale(10);
+        image.setCentered(true);
 
-        // image.setCentered(true);
-
-        // image.setOffset(0, 0);
-
-        // Text text = new Text("hello");
-
-        // text.setCentered(true);
-        // text.setOffset(0, 20);
-
-        Button button = new Button("Moonshot/src/resources/textures/tex_pig.png");
-        button.setScale(10);
-        button.setCentered(true);
-        // button.setOffset(200, 0);
-
-        entities = new UIElement[] { button };
+        entities = new UIElement[] { image };
     }
 
     @Override
@@ -55,19 +42,5 @@ public class GameCanvas implements Canvas {
         }
 
     }
-
-    // @Override
-    // public void update(Window window) {
-    //     center = new Vector2f((float)window.getWidth()/2, (float)window.getHeight()/2);
-
-    //     image.setPosition(window.getWidth()/2, center.y, 0);
-    //     System.out.println("udpate");
-    // }
-    
-    // public void updateSize(Window window) {
-    //     this.statusTextItem.setPosition(10f, window.getHeight() - 50f, 0);
-    //     screenSize.x = window.getWidth();
-    //     screenSize.y = window.getHeight();
-    // }
     
 }
