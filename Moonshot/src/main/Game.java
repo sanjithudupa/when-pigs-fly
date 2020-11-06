@@ -22,7 +22,7 @@ public class Game implements GameLogic {
     private static final float MOUSE_SENSITIVITY = 0.2f;
     private static final float CAMERA_POS_STEP = 0.05f;
 
-    private final float fadeTime = 1.0f;
+    private final float transitionTime = 1.5f;
 
     private final Vector3f cameraMotion;
     private Vector2f rotVec = new Vector2f(0, 0);
@@ -35,6 +35,9 @@ public class Game implements GameLogic {
 
     private Entity pig;
     private Entity[] entities;
+
+    private float transitionStart;
+    private boolean transitioning = true;
     
     public Game() {
         renderer = new Renderer();
@@ -84,6 +87,11 @@ public class Game implements GameLogic {
             cameraMotion.y = 1;
         }
 
+        if(window.isKeyPressed(GLFW_KEY_R) && transitioning) {
+            transitionStart = timer.getTimePassed();
+            transitioning = false;
+        }
+
         if (mouseInput.isRightButtonPressed())
             rotVec = mouseInput.getDisplVec();
         else
@@ -100,9 +108,19 @@ public class Game implements GameLogic {
 
         ui.input(mouseInput);
 
-        iterations++;
+        if(!transitioning){
+            float opacity = (timer.getTimePassed() - transitionStart)/(transitionTime);
+            if(opacity <= transitionTime){
+                ui.setTransitionOpacity(opacity);
+            }else if(opacity <= transitionTime*2){
+                ui.setTransitionOpacity(2 - (opacity));
+            }else{
+                ui.setTransitionOpacity(0.0f);
+                transitioning = true;
+            }
+        }
 
-        float timePassed = iterations/(float)GameEngine.TARGET_FPS;
+        iterations++;
     }
 
     @Override
