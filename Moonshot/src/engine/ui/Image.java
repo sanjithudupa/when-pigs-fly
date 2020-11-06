@@ -87,7 +87,7 @@ public class Image extends UIElement {
 
     @Override
     public Vector2f getBbox() {
-        return new Vector2f(width * getScale(), height * getScale());
+        return new Vector2f(width * getScale()/2, height * getScale()/2);
     }
 
     @Override

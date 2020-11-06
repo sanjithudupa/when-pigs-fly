@@ -38,7 +38,7 @@ public class GameCanvas implements Canvas {
         Button button = new Button("Moonshot/src/resources/textures/tex_pig.png");
         button.setScale(10);
         button.setCentered(true);
-        button.setOffset(0, 0);
+        // button.setOffset(200, 0);
 
         entities = new UIElement[] { button };
     }

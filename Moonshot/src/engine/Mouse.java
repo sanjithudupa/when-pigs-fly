@@ -14,8 +14,6 @@ public class Mouse {
     private Vector2d currentPos;
     private Vector2f displVec;
 
-    private Vector2f currentAdj;
-
     private GLFWCursorPosCallback posCallback;
 
     private boolean inWindow = true;
@@ -26,7 +24,6 @@ public class Mouse {
         previousPos = new Vector2d(-1, -1);
         currentPos = new Vector2d(0, 0);
         displVec = new Vector2f();
-
     }
 
     public void init(Window window) {
@@ -37,8 +34,8 @@ public class Mouse {
         return displVec;
     }
 
-    public Vector2f mousePosUI(){
-        return currentAdj;
+    public Vector2f getPosition(){
+        return new Vector2f((float)currentPos.x, (float)currentPos.y);
     }
 
     public void input(Window window) {
@@ -55,9 +52,6 @@ public class Mouse {
 
         currentPos.x = x.get();
         currentPos.y = y.get();
-
-        currentAdj.x = (float)(window.getWidth()/2 - currentPos.x);
-        currentAdj.y = (float)(window.getHeight()/2 - currentPos.y);
 
         displVec.x = 0;
         displVec.y = 0;
