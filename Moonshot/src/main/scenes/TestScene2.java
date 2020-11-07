@@ -13,7 +13,7 @@ import main.canvases.GameCanvas;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class TestScene implements Scene {
+public class TestScene2 implements Scene {
 
     //required elements
     private Entity[] entities;
@@ -27,7 +27,7 @@ public class TestScene implements Scene {
     private final Vector3f cameraMotion;
     private Vector2f rotVec = new Vector2f(0, 0);
 
-    public TestScene(Camera camera){
+    public TestScene2(Camera camera){
         this.camera = camera;
         this.cameraMotion = new Vector3f();
         // timer = new Timer();
@@ -45,8 +45,8 @@ public class TestScene implements Scene {
 
     @Override
     public void init(Window window) throws Exception {
-        Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        Texture pigTexture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
+        Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/cube.obj");
+        Texture pigTexture = new Texture("Moonshot/src/resources/textures/texture.png");
 
         pigMesh.setTexture(pigTexture);
         pig = new Entity(pigMesh);

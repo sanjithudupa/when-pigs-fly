@@ -9,6 +9,8 @@ import engine.scene.*;
 import main.scenes.*;
 import engine.graph.Renderer;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 public class Game implements GameLogic {
     // private static final float MOUSE_SENSITIVITY = 0.2f;
     // private static final float CAMERA_POS_STEP = 0.05f;
@@ -18,7 +20,6 @@ public class Game implements GameLogic {
     private final Timer timer;
 
     private final SceneManager sceneManager;
-
     // private GameCanvas ui;
 
     // private Entity pig;
@@ -26,7 +27,7 @@ public class Game implements GameLogic {
 
     // private float transitionStart;
     // private boolean transitioning = true;
-    
+
     public Game() {
         renderer = new Renderer();
         camera = new Camera();
@@ -34,21 +35,24 @@ public class Game implements GameLogic {
 
         sceneManager = new SceneManager();
     }
-    
+
     @Override
     public void init(Window window) throws Exception {
         renderer.init(window);
 
-        Scene[] scenes = new Scene[]{ new TestScene(camera) };
+        Scene[] scenes = new Scene[] { new TestScene(camera), new TestScene2(camera) };
 
         sceneManager.init(scenes, window);
-        
+        // scene.init(window);
+        // scene2.init(window);
+
         // Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        // Texture pigTexture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
+        // Texture pigTexture = new
+        // Texture("Moonshot/src/resources/textures/Tex_Pig.png");
 
         // pigMesh.setTexture(pigTexture);
         // pig = new Entity(pigMesh);
-        
+
         // entities = new Entity[]{ pig };
 
         // ui = new GameCanvas();
@@ -57,26 +61,26 @@ public class Game implements GameLogic {
 
         timer.init();
     }
-    
+
     @Override
-    public void input(Window window, Mouse mouseInput) {
+    public void input(Window window, Mouse mouseInput) throws Exception {
         // cameraMotion.set(0, 0, 0);
 
         // if (window.isKeyPressed(GLFW_KEY_W)) {
-        //     cameraMotion.z = -1;
+        // cameraMotion.z = -1;
         // } else if (window.isKeyPressed(GLFW_KEY_S)) {
-        //     cameraMotion.z = 1;
+        // cameraMotion.z = 1;
         // }
 
         // if (window.isKeyPressed(GLFW_KEY_A)) {
-        //     cameraMotion.x = -1;
+        // cameraMotion.x = -1;
         // } else if (window.isKeyPressed(GLFW_KEY_D)) {
-        //     cameraMotion.x = 1;
+        // cameraMotion.x = 1;
         // }
 
-        // if (window.isKeyPressed(GLFW_KEY_Q)) {
-        //     cameraMotion.y = -1;
-        // } else if (window.isKeyPressed(GLFW_KEY_E)) {
+        if (window.isKeyPressed(GLFW_KEY_1)) {
+            sceneManager.loadScene(1);
+        }
         //     cameraMotion.y = 1;
         // }
 
@@ -117,6 +121,8 @@ public class Game implements GameLogic {
         // }
 
         // iterations++;
+
+
     }
 
     @Override
