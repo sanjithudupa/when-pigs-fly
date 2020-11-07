@@ -12,8 +12,6 @@ import engine.graph.Texture;
 
 public class Image extends UIElement {
 
-    private static final float ZPOS = 0.0f;
-
     private final int width;
     private final int height;
 

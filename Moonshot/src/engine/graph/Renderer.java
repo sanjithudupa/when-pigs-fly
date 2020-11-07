@@ -5,6 +5,9 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glViewport;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
@@ -65,7 +68,7 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render(Window window, Camera camera, Entity[] entities, Canvas ui) {
+    public void render(Window window, Camera camera, Entity[] entities, Canvas ui, Canvas overlay) {
         clear();
 
         if (window.isResized()) {
@@ -74,6 +77,7 @@ public class Renderer {
         }
 
         renderScene(window, camera, entities);
+        renderUI(window, overlay);
         renderUI(window, ui);
     }
 
@@ -108,8 +112,14 @@ public class Renderer {
     private void renderUI(Window window, Canvas ui) {
         uiShaderProgram.bind();
 
+        UIElement[] uiElements = ui.getElements();
+
+        // ArrayList<UIElement> fullUI = new ArrayList<UIElement>(Arrays.asList(overlayElements));
+        // fullUI.addAll(Arrays.asList(uiElements));
+
+
         Matrix4f ortho = transformation.getOrthoProjectionMatrix(0, window.getWidth(), window.getHeight(), 0);
-        for (UIElement entity : ui.getElements()) {
+        for (UIElement entity : uiElements) {
             Mesh mesh = entity.getMesh();
             // Set ortohtaphic and model matrix for this HUD item
             Matrix4f projModelMatrix = transformation.getOrtoProjModelMatrix(entity, ortho);

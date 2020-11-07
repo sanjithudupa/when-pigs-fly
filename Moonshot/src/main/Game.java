@@ -6,6 +6,7 @@ import engine.Timer;
 import engine.Window;
 import engine.graph.Camera;
 import engine.scene.*;
+import main.canvases.*;
 import main.scenes.*;
 import engine.graph.Renderer;
 
@@ -20,13 +21,16 @@ public class Game implements GameLogic {
     private final Timer timer;
 
     private final SceneManager sceneManager;
+
+    private Overlay overlay;
     // private GameCanvas ui;
 
     // private Entity pig;
     // private Entity[] entities;
 
-    // private float transitionStart;
-    // private boolean transitioning = true;
+    private float transitionStart;
+    private float transitionTime = 1.0f;
+    private boolean transitioning = true;
 
     public Game() {
         renderer = new Renderer();
@@ -41,6 +45,7 @@ public class Game implements GameLogic {
         renderer.init(window);
 
         Scene[] scenes = new Scene[] { new TestScene(camera), new TestScene2(camera) };
+        overlay = new Overlay();
 
         sceneManager.init(scenes, window);
         // scene.init(window);
@@ -84,10 +89,10 @@ public class Game implements GameLogic {
         //     cameraMotion.y = 1;
         // }
 
-        // if(window.isKeyPressed(GLFW_KEY_R) && transitioning) {
-        //     transitionStart = timer.getTimePassed();
-        //     transitioning = false;
-        // }
+        if(window.isKeyPressed(GLFW_KEY_R) && transitioning) {
+            transitionStart = timer.getTimePassed();
+            transitioning = false;
+        }
 
         // if (mouseInput.isRightButtonPressed())
         //     rotVec = mouseInput.getDisplVec();
@@ -108,17 +113,17 @@ public class Game implements GameLogic {
 
         // ui.input(mouseInput);
 
-        // if(!transitioning){
-        //     float opacity = (timer.getTimePassed() - transitionStart)/(transitionTime);
-        //     if(opacity <= transitionTime){
-        //         ui.setTransitionOpacity(opacity);
-        //     }else if(opacity <= transitionTime*2){
-        //         ui.setTransitionOpacity(2 - (opacity));
-        //     }else{
-        //         ui.setTransitionOpacity(0.0f);
-        //         transitioning = true;
-        //     }
-        // }
+        if(!transitioning){
+            float opacity = (timer.getTimePassed() - transitionStart)/(transitionTime);
+            if(opacity <= transitionTime){
+                overlay.setOpacity(opacity);
+            }else if(opacity <= transitionTime*2){
+                overlay.setOpacity(2 - (opacity));
+            }else{
+                overlay.setOpacity(0.0f);
+                transitioning = true;
+            }
+        }
 
         // iterations++;
 
@@ -127,7 +132,7 @@ public class Game implements GameLogic {
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, sceneManager.getActiveScene().getEntities(), sceneManager.getActiveScene().getCanvas());
+        renderer.render(window, camera, sceneManager.getActiveScene().getEntities(), sceneManager.getActiveScene().getCanvas(), overlay);
         sceneManager.getActiveScene().getCanvas().update(window);
     }
 

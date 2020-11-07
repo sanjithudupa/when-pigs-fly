@@ -12,13 +12,11 @@ import engine.graph.Mesh;
 
 public class Panel extends UIElement {
 
-    private static final float ZPOS = 0.0f;
-
     private final int width;
     private final int height;
 
     public Panel(Vector3f color, int width, int height) throws Exception {
-        super();
+        super(0.0f);
         this.width = width;
         this.height = height;
 

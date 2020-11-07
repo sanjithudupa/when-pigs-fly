@@ -11,8 +11,10 @@ public class Overlay implements Canvas{
 
     Panel overlay = null;
 
-    public Overlay() throws Exception{
+    public Overlay() throws Exception {
         overlay = new Panel(new Vector3f(0.0f, 0.0f, 0.0f), 1920, 1080);
+        overlay.setOpacity(0.0f);
+        elements = new UIElement[] { overlay };
     }
 
     public void setOpacity(float opacity){

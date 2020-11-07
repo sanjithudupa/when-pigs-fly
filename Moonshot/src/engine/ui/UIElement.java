@@ -6,12 +6,21 @@ import engine.Entity;
 import engine.Mouse;
 
 public abstract class UIElement extends Entity {
+    public float ZPOS = 0.1f;
     private Vector2f offset = new Vector2f(0.0f, 0.0f);
 
     private float opacity = 1.0f;
 
     private boolean centered;
     private boolean percentage;
+
+    UIElement(){
+
+    }
+
+    protected UIElement(float ZPOS) {
+        this.ZPOS = ZPOS;
+    }
 
     public Vector2f getOffset() {
         return offset;

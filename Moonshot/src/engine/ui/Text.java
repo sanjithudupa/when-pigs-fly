@@ -13,7 +13,6 @@ import engine.graph.Texture;
 
 public class Text extends UIElement {
 
-    private static final float ZPOS = 0.0f;
     private static final int FONT_COLS = 16;
     private static final int FONT_ROWS = 16;
 
