@@ -83,45 +83,52 @@ public class Game implements GameLogic {
         // cameraMotion.x = 1;
         // }
 
-        if (window.isKeyPressed(GLFW_KEY_1)) {
-            sceneManager.loadScene(1);
-        }
-        //     cameraMotion.y = 1;
+        // cameraMotion.y = 1;
         // }
 
-        if(window.isKeyPressed(GLFW_KEY_R) && transitioning) {
+        if (window.isKeyPressed(GLFW_KEY_R) && transitioning) {
             transitionStart = timer.getTimePassed();
             transitioning = false;
         }
 
         // if (mouseInput.isRightButtonPressed())
-        //     rotVec = mouseInput.getDisplVec();
+        // rotVec = mouseInput.getDisplVec();
         // else
-        //     rotVec = new Vector2f(0, 0);
+        // rotVec = new Vector2f(0, 0);
 
         sceneManager.getActiveScene().input(window, mouseInput);
-        
+
     }
 
-    int iterations = 0;
+    boolean switched = false;
 
     @Override
     public void update(float interval, Mouse mouseInput) {
         sceneManager.getActiveScene().update(interval, mouseInput);
-        // camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y * Mouse.CAMERA_POS_STEP, cameraMotion.z * Mouse.CAMERA_POS_STEP);
-        // camera.moveRotation(rotVec.x * Mouse.MOUSE_SENSITIVITY, rotVec.y * Mouse.MOUSE_SENSITIVITY, 0);
+        // camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y *
+        // Mouse.CAMERA_POS_STEP, cameraMotion.z * Mouse.CAMERA_POS_STEP);
+        // camera.moveRotation(rotVec.x * Mouse.MOUSE_SENSITIVITY, rotVec.y *
+        // Mouse.MOUSE_SENSITIVITY, 0);
 
         // ui.input(mouseInput);
 
-        if(!transitioning){
-            float opacity = (timer.getTimePassed() - transitionStart)/(transitionTime);
-            if(opacity <= transitionTime){
+        if (!transitioning) {
+            float opacity = (timer.getTimePassed() - transitionStart) / (transitionTime);
+            if (opacity < transitionTime) {
                 overlay.setOpacity(opacity);
             }else if(opacity <= transitionTime*2){
+                if(!switched){
+                    try {
+                        sceneManager.loadScene(1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    switched = true;
+                }
                 overlay.setOpacity(2 - (opacity));
             }else{
                 overlay.setOpacity(0.0f);
-                transitioning = true;
+                transitioning = false;
             }
         }
 
