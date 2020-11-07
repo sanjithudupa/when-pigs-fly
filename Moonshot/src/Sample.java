@@ -1,3 +1,6 @@
+/**
+ * This is the LWGJL Quickstart Sample program that I learned from
+ */
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
