@@ -1,32 +1,17 @@
 package main;
 
-import engine.Entity;
 import engine.GameLogic;
 import engine.Mouse;
 import engine.Timer;
 import engine.Window;
 import engine.graph.Camera;
-import engine.graph.Mesh;
-import engine.graph.ModelLoader;
-import engine.graph.Texture;
 import engine.scene.*;
-import main.canvases.*;
 import main.scenes.*;
 import engine.graph.Renderer;
-
-import static org.lwjgl.glfw.GLFW.*;
-
-
-import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 public class Game implements GameLogic {
     // private static final float MOUSE_SENSITIVITY = 0.2f;
     // private static final float CAMERA_POS_STEP = 0.05f;
-
-    private final float transitionTime = 1.5f;
-
-    private Vector2f rotVec = new Vector2f(0, 0);
 
     private final Camera camera;
     private final Renderer renderer;

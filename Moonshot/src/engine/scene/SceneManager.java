@@ -16,7 +16,8 @@ public class SceneManager {
 
     public void loadScene(int index) throws Exception {
         this.index = index;
-        scenes[0].init(window);
+        this.cleanup();
+        scenes[0].init(this.window);
     }
 
     public Scene getActiveScene(){
