@@ -30,7 +30,7 @@ public class Game implements GameLogic {
 
     private float transitionStart;
     private float transitionTime = 1.0f;
-    private boolean transitioning = true;
+    private boolean transitioning = false;
 
     public Game() {
         renderer = new Renderer();
@@ -86,9 +86,9 @@ public class Game implements GameLogic {
         // cameraMotion.y = 1;
         // }
 
-        if (window.isKeyPressed(GLFW_KEY_R) && transitioning) {
+        if (window.isKeyPressed(GLFW_KEY_R) && !transitioning) {
             transitionStart = timer.getTimePassed();
-            transitioning = false;
+            transitioning = true;
         }
 
         // if (mouseInput.isRightButtonPressed())
@@ -112,7 +112,7 @@ public class Game implements GameLogic {
 
         // ui.input(mouseInput);
 
-        if (!transitioning) {
+        if (transitioning) {
             float opacity = (timer.getTimePassed() - transitionStart) / (transitionTime);
             if (opacity < transitionTime) {
                 overlay.setOpacity(opacity);
@@ -128,7 +128,7 @@ public class Game implements GameLogic {
                 overlay.setOpacity(2 - (opacity));
             }else{
                 overlay.setOpacity(0.0f);
-                transitioning = false;
+                transitioning = true;
             }
         }
 
