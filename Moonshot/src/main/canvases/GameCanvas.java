@@ -1,4 +1,4 @@
-package main;
+package main.canvases;
 
 import org.joml.Vector3f;
 

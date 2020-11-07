@@ -13,6 +13,9 @@ public class Mouse {
     private Vector2d currentPos;
     private Vector2f displVec;
 
+    public static final float MOUSE_SENSITIVITY = 0.2f;
+    public static final float CAMERA_POS_STEP = 0.05f;
+
     private boolean inWindow = true;
     private boolean leftButtonPressed = false;
     private boolean rightButtonPressed = false;

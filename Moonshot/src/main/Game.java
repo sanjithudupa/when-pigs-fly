@@ -9,6 +9,9 @@ import engine.graph.Camera;
 import engine.graph.Mesh;
 import engine.graph.ModelLoader;
 import engine.graph.Texture;
+import engine.scene.*;
+import main.canvases.*;
+import main.scenes.*;
 import engine.graph.Renderer;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -18,83 +21,91 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Game implements GameLogic {
-    private static final float MOUSE_SENSITIVITY = 0.2f;
-    private static final float CAMERA_POS_STEP = 0.05f;
+    // private static final float MOUSE_SENSITIVITY = 0.2f;
+    // private static final float CAMERA_POS_STEP = 0.05f;
 
     private final float transitionTime = 1.5f;
 
-    private final Vector3f cameraMotion;
     private Vector2f rotVec = new Vector2f(0, 0);
 
     private final Camera camera;
     private final Renderer renderer;
     private final Timer timer;
 
-    private GameCanvas ui;
+    private final SceneManager sceneManager;
 
-    private Entity pig;
-    private Entity[] entities;
+    // private GameCanvas ui;
 
-    private float transitionStart;
-    private boolean transitioning = true;
+    // private Entity pig;
+    // private Entity[] entities;
+
+    // private float transitionStart;
+    // private boolean transitioning = true;
     
     public Game() {
         renderer = new Renderer();
         camera = new Camera();
-        cameraMotion = new Vector3f();
         timer = new Timer();
+
+        sceneManager = new SceneManager();
     }
     
     @Override
     public void init(Window window) throws Exception {
         renderer.init(window);
+
+        Scene[] scenes = new Scene[]{ new TestScene(camera) };
+
+        sceneManager.init(scenes, window);
         
-        Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        Texture pigTexture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
+        // Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
+        // Texture pigTexture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
 
-        pigMesh.setTexture(pigTexture);
-        pig = new Entity(pigMesh);
+        // pigMesh.setTexture(pigTexture);
+        // pig = new Entity(pigMesh);
         
-        entities = new Entity[]{ pig };
+        // entities = new Entity[]{ pig };
 
-        ui = new GameCanvas();
+        // ui = new GameCanvas();
 
-        camera.setPosition(0, 0, 0);
+        // camera.setPosition(0, 0, 0);
 
         timer.init();
     }
     
     @Override
     public void input(Window window, Mouse mouseInput) {
-        cameraMotion.set(0, 0, 0);
+        // cameraMotion.set(0, 0, 0);
 
-        if (window.isKeyPressed(GLFW_KEY_W)) {
-            cameraMotion.z = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_S)) {
-            cameraMotion.z = 1;
-        }
+        // if (window.isKeyPressed(GLFW_KEY_W)) {
+        //     cameraMotion.z = -1;
+        // } else if (window.isKeyPressed(GLFW_KEY_S)) {
+        //     cameraMotion.z = 1;
+        // }
 
-        if (window.isKeyPressed(GLFW_KEY_A)) {
-            cameraMotion.x = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_D)) {
-            cameraMotion.x = 1;
-        }
+        // if (window.isKeyPressed(GLFW_KEY_A)) {
+        //     cameraMotion.x = -1;
+        // } else if (window.isKeyPressed(GLFW_KEY_D)) {
+        //     cameraMotion.x = 1;
+        // }
 
-        if (window.isKeyPressed(GLFW_KEY_Q)) {
-            cameraMotion.y = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_E)) {
-            cameraMotion.y = 1;
-        }
+        // if (window.isKeyPressed(GLFW_KEY_Q)) {
+        //     cameraMotion.y = -1;
+        // } else if (window.isKeyPressed(GLFW_KEY_E)) {
+        //     cameraMotion.y = 1;
+        // }
 
-        if(window.isKeyPressed(GLFW_KEY_R) && transitioning) {
-            transitionStart = timer.getTimePassed();
-            transitioning = false;
-        }
+        // if(window.isKeyPressed(GLFW_KEY_R) && transitioning) {
+        //     transitionStart = timer.getTimePassed();
+        //     transitioning = false;
+        // }
 
-        if (mouseInput.isRightButtonPressed())
-            rotVec = mouseInput.getDisplVec();
-        else
-            rotVec = new Vector2f(0, 0);
+        // if (mouseInput.isRightButtonPressed())
+        //     rotVec = mouseInput.getDisplVec();
+        // else
+        //     rotVec = new Vector2f(0, 0);
+
+        sceneManager.getActiveScene().input(window, mouseInput);
         
     }
 
@@ -102,37 +113,39 @@ public class Game implements GameLogic {
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-        camera.movePosition(cameraMotion.x * CAMERA_POS_STEP, cameraMotion.y * CAMERA_POS_STEP, cameraMotion.z * CAMERA_POS_STEP);
-        camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
+        sceneManager.getActiveScene().update(interval, mouseInput);
+        // camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y * Mouse.CAMERA_POS_STEP, cameraMotion.z * Mouse.CAMERA_POS_STEP);
+        // camera.moveRotation(rotVec.x * Mouse.MOUSE_SENSITIVITY, rotVec.y * Mouse.MOUSE_SENSITIVITY, 0);
 
-        ui.input(mouseInput);
+        // ui.input(mouseInput);
 
-        if(!transitioning){
-            float opacity = (timer.getTimePassed() - transitionStart)/(transitionTime);
-            if(opacity <= transitionTime){
-                ui.setTransitionOpacity(opacity);
-            }else if(opacity <= transitionTime*2){
-                ui.setTransitionOpacity(2 - (opacity));
-            }else{
-                ui.setTransitionOpacity(0.0f);
-                transitioning = true;
-            }
-        }
+        // if(!transitioning){
+        //     float opacity = (timer.getTimePassed() - transitionStart)/(transitionTime);
+        //     if(opacity <= transitionTime){
+        //         ui.setTransitionOpacity(opacity);
+        //     }else if(opacity <= transitionTime*2){
+        //         ui.setTransitionOpacity(2 - (opacity));
+        //     }else{
+        //         ui.setTransitionOpacity(0.0f);
+        //         transitioning = true;
+        //     }
+        // }
 
-        iterations++;
+        // iterations++;
     }
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, entities, ui);
-        ui.update(window);
+        renderer.render(window, camera, sceneManager.getActiveScene().getEntities(), sceneManager.getActiveScene().getCanvas());
+        sceneManager.getActiveScene().getCanvas().update(window);
     }
 
     @Override
     public void cleanup() {
         renderer.cleanup();
-        for(Entity entity : entities){
-            entity.getMesh().cleanUp();
-        }
+        sceneManager.cleanup();
+        // for(Entity entity : entities){
+        //     entity.getMesh().cleanUp();
+        // }
     }
 }
