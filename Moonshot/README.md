@@ -1,14 +1,10 @@
-## Getting Started
+## Moonshot
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This is my code for the 2020 Github GameOff with the theme Moonshot. I wrote the engine from scratch using Java in OpenGL
 
 ## Folder Structure
 
-The workspace contains two folders by default, where:
+The `src` folder has two subdirectories
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-## Dependency Management
-
-The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
+- `engine`: This is the engine I wrote on the day the Jam began using LWJGL
+- `main`: This is where I will keep the real game logic for the Moonshot game.
