@@ -16,7 +16,7 @@ public class Panel extends UIElement {
     private final int height;
 
     public Panel(Vector3f color, int width, int height) throws Exception {
-        super(0.0f);
+        super();
         this.width = width;
         this.height = height;
 

@@ -14,13 +14,6 @@ public abstract class UIElement extends Entity {
     private boolean centered;
     private boolean percentage;
 
-    UIElement(){
-
-    }
-
-    protected UIElement(float ZPOS) {
-        this.ZPOS = ZPOS;
-    }
 
     public Vector2f getOffset() {
         return offset;
