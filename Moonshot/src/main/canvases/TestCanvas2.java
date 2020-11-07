@@ -1,36 +1,25 @@
 package main.canvases;
 
-import org.joml.Vector3f;
-
 import engine.Mouse;
 import engine.ui.*;
 import engine.ui.UIElement;
 
-public class GameCanvas implements Canvas {
+public class TestCanvas2 implements Canvas {
 
-    private final UIElement[] entities;
+    private final UIElement[] elements;
 
-    Panel black = new Panel(new Vector3f(0.0f, 0.0f, 0.0f), 1920, 1080);
-
-    public GameCanvas() throws Exception {
+    public TestCanvas2() throws Exception {
         Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
         image.setScale(10);
         image.setCentered(true);
 
-        black.setOpacity(0.0f);
-
-        entities = new UIElement[] { black, image };
+        elements = new UIElement[] { image };
     }
-
-    public void setTransitionOpacity(float opacity){
-        black.setOpacity(opacity);
-    }
-
 
 
     @Override
     public UIElement[] getElements() {
-        return entities;
+        return elements;
     }
 
     @Override

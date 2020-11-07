@@ -9,7 +9,7 @@ import engine.Window;
 import engine.graph.*;
 import engine.scene.Scene;
 import engine.ui.Canvas;
-import main.canvases.GameCanvas;
+import main.canvases.TestCanvas;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -17,7 +17,7 @@ public class TestScene implements Scene {
 
     //required elements
     private Entity[] entities;
-    private GameCanvas canvas;
+    private Canvas canvas;
     private Camera camera;
 
     //scene objects
@@ -53,7 +53,7 @@ public class TestScene implements Scene {
         
         entities = new Entity[]{ pig };
 
-        canvas = new GameCanvas();
+        canvas = new TestCanvas();
 
         // camera.setPosition(0, 0, 0);
     }
