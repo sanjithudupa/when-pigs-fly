@@ -36,4 +36,6 @@ public interface Canvas {
             }
         }
     }
+
+    default public void setOpacity(float opacity){ }
 }

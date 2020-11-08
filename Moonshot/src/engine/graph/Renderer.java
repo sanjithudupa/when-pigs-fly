@@ -5,9 +5,6 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glViewport;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
