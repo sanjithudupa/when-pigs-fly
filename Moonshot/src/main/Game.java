@@ -13,8 +13,6 @@ import engine.graph.Renderer;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Game implements GameLogic {
-    // private static final float MOUSE_SENSITIVITY = 0.2f;
-    // private static final float CAMERA_POS_STEP = 0.05f;
 
     private final Camera camera;
     private final Renderer renderer;
@@ -23,10 +21,6 @@ public class Game implements GameLogic {
     private final SceneManager sceneManager;
 
     private Overlay overlay;
-    // private GameCanvas ui;
-
-    // private Entity pig;
-    // private Entity[] entities;
 
     private float transitionStart;
     private float transitionTime = 1.0f;
@@ -48,53 +42,17 @@ public class Game implements GameLogic {
         overlay = new Overlay();
 
         sceneManager.init(scenes, window);
-        // scene.init(window);
-        // scene2.init(window);
-
-        // Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        // Texture pigTexture = new
-        // Texture("Moonshot/src/resources/textures/Tex_Pig.png");
-
-        // pigMesh.setTexture(pigTexture);
-        // pig = new Entity(pigMesh);
-
-        // entities = new Entity[]{ pig };
-
-        // ui = new GameCanvas();
-
-        // camera.setPosition(0, 0, 0);
 
         timer.init();
     }
 
     @Override
     public void input(Window window, Mouse mouseInput) throws Exception {
-        // cameraMotion.set(0, 0, 0);
-
-        // if (window.isKeyPressed(GLFW_KEY_W)) {
-        // cameraMotion.z = -1;
-        // } else if (window.isKeyPressed(GLFW_KEY_S)) {
-        // cameraMotion.z = 1;
-        // }
-
-        // if (window.isKeyPressed(GLFW_KEY_A)) {
-        // cameraMotion.x = -1;
-        // } else if (window.isKeyPressed(GLFW_KEY_D)) {
-        // cameraMotion.x = 1;
-        // }
-
-        // cameraMotion.y = 1;
-        // }
 
         if (window.isKeyPressed(GLFW_KEY_R) && !transitioning) {
             transitionStart = timer.getTimePassed();
             transitioning = true;
         }
-
-        // if (mouseInput.isRightButtonPressed())
-        // rotVec = mouseInput.getDisplVec();
-        // else
-        // rotVec = new Vector2f(0, 0);
 
         sceneManager.getActiveScene().input(window, mouseInput);
 
@@ -105,12 +63,6 @@ public class Game implements GameLogic {
     @Override
     public void update(float interval, Mouse mouseInput) {
         sceneManager.getActiveScene().update(interval, mouseInput);
-        // camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y *
-        // Mouse.CAMERA_POS_STEP, cameraMotion.z * Mouse.CAMERA_POS_STEP);
-        // camera.moveRotation(rotVec.x * Mouse.MOUSE_SENSITIVITY, rotVec.y *
-        // Mouse.MOUSE_SENSITIVITY, 0);
-
-        // ui.input(mouseInput);
 
         if (transitioning) {
             float opacity = (timer.getTimePassed() - transitionStart) / (transitionTime);
@@ -132,9 +84,6 @@ public class Game implements GameLogic {
             }
         }
 
-        // iterations++;
-
-
     }
 
     @Override
@@ -147,8 +96,5 @@ public class Game implements GameLogic {
     public void cleanup() {
         renderer.cleanup();
         sceneManager.cleanup();
-        // for(Entity entity : entities){
-        //     entity.getMesh().cleanUp();
-        // }
     }
 }
