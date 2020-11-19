@@ -13,7 +13,7 @@ public class TestCanvas implements Canvas {
         image.setScale(10);
         image.setCentered(false);
 
-        elements = new UIElement[] { image };
+        elements = new UIElement[] {   };
     }
 
 
