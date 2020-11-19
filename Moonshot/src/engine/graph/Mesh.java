@@ -150,9 +150,10 @@ public class Mesh {
         for (int vboId : vboIdList) {
             glDeleteBuffers(vboId);
         }
-
+        
         // Delete the texture
-        this.texture.cleanup();
+        if(this.texture != null)
+            this.texture.cleanup();
 
         // Delete the VAO
         glBindVertexArray(0);

@@ -5,6 +5,7 @@ import org.joml.Vector3f;
 
 import engine.Entity;
 import engine.Mouse;
+import engine.Terrain;
 import engine.Window;
 import engine.graph.*;
 import engine.scene.Scene;
@@ -47,17 +48,25 @@ public class TestScene implements Scene {
 
     @Override
     public void init(Window window) throws Exception {
-        Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/hill_old/valley.obj");
-        Texture pigTexture = new Texture("Moonshot/src/resources/textures/hill_light.png");
+        // Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/hill_old/valley.obj");
+        // Texture pigTexture = new Texture("Moonshot/src/resources/textures/hill_light.png");
 
-        pigMesh.setTexture(pigTexture);
-        pig = new Entity(pigMesh);
-        pig2 = new Entity(pigMesh);
-        pig3 = new Entity(pigMesh);
-        // pig.setRotation(180, 0, 0);
+        // pigMesh.setTexture(pigTexture);
+        // pig = new Entity(pigMesh);
+        // pig2 = new Entity(pigMesh);
+        // pig3 = new Entity(pigMesh);
+        // // pig.setRotation(180, 0, 0);
+
+        
+        float terrainScale = 4;
+        int terrainSize = 1;
+        float minY = -0.1f;
+        float maxY = 0.3f;
+        int textInc = 1;
+        Terrain terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "Moonshot/src/resources/textures/moonshot_height_map_invert.jpg", "Moonshot/src/resources/textures/hill_old/hilltex.png", textInc);
         
         
-        entities = new Entity[]{ pig, pig2, pig3 };
+        entities = terrain.getEntities();
 
         canvas = new TestCanvas();
 
@@ -104,8 +113,8 @@ public class TestScene implements Scene {
         camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y * Mouse.CAMERA_POS_STEP, cameraMotion.z * Mouse.CAMERA_POS_STEP);
         camera.moveRotation(rotVec.x * Mouse.MOUSE_SENSITIVITY, rotVec.y * Mouse.MOUSE_SENSITIVITY, 0);
 
-        pig2.setPosition(position, 0, 0);
-        pig3.setPosition(-position, 0, 0);
+        // pig2.setPosition(position, 0, 0);
+        // pig3.setPosition(-position, 0, 0);
         System.out.println(position);
 
         canvas.input(mouseInput);
