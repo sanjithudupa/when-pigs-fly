@@ -41,7 +41,7 @@ public class Game implements GameLogic {
     public void init(Window window) throws Exception {
         renderer.init(window);
 
-        Scene[] scenes = new Scene[] { new TestScene(camera), new TestScene2(camera) };
+        Scene[] scenes = new Scene[] { new TestScene(camera), new TestScene(camera) };
         overlay = new Overlay();
 
         sceneManager.init(scenes, window);
@@ -80,7 +80,7 @@ public class Game implements GameLogic {
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, sceneManager.getActiveScene().getEntities(), sceneManager.getActiveScene().getCanvas(), overlay);
+        renderer.render(window, camera, sceneManager.getActiveScene(), overlay);
         sceneManager.getActiveScene().getCanvas().update(window);
     }
 

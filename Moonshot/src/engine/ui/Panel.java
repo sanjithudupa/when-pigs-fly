@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import engine.Mouse;
 import engine.Utils;
+import engine.graph.Material;
 import engine.graph.Mesh;
 
 public class Panel extends UIElement {
@@ -15,7 +17,7 @@ public class Panel extends UIElement {
     private final int width;
     private final int height;
 
-    public Panel(Vector3f color, int width, int height) throws Exception {
+    public Panel(Vector4f color, int width, int height) throws Exception {
         super();
         this.width = width;
         this.height = height;
@@ -23,7 +25,7 @@ public class Panel extends UIElement {
         this.setMesh(buildMesh(color, width, height));
     }
 
-    private Mesh buildMesh(Vector3f color, float width, float height) {
+    private Mesh buildMesh(Vector4f color, float width, float height) {
 
         List<Float> positions = new ArrayList<>();
         List<Float> textCoords = new ArrayList<>();
@@ -72,7 +74,9 @@ public class Panel extends UIElement {
         float[] textCoordsArr = Utils.listToArray(textCoords);
         int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
         Mesh mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
-        mesh.setColor(color);
+        Material material = new Material();
+        material.setAmbientColor(color);
+        mesh.setMaterial(new Material());
         return mesh;
     }
 

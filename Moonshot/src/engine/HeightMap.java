@@ -8,6 +8,7 @@ import java.util.List;
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
+import engine.graph.Material;
 import engine.graph.Mesh;
 import engine.graph.Texture;
 
@@ -90,8 +91,9 @@ public class HeightMap {
         float[] textCoordsArr = Utils.listToArray(textCoords);
         float[] normalsArr = calcNormals(posArr, width, height);
         this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
-        mesh.setColor(new Vector3f(0.30f, 0.89f, 0.02f));
-        // mesh.setTexture(texture);
+        Material material = new Material(texture, 0.0f);
+        mesh.setMaterial(material);
+
         stbi_image_free(buf);
     }
 

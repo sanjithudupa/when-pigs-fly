@@ -1,6 +1,6 @@
 package main.canvases;
 
-import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import engine.Mouse;
 import engine.ui.*;
@@ -12,7 +12,7 @@ public class Overlay implements Canvas{
     Panel overlay = null;
 
     public Overlay() throws Exception {
-        overlay = new Panel(new Vector3f(0.0f, 0.0f, 0.0f), 1920, 1080);
+        overlay = new Panel(new Vector4f(0.0f, 0.0f, 0.0f, 0.0f), 1920, 1080);
         overlay.setOpacity(0.0f);
         elements = new UIElement[] { overlay };
     }

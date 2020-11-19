@@ -7,6 +7,7 @@ import org.joml.Vector2f;
 
 import engine.Mouse;
 import engine.Utils;
+import engine.graph.Material;
 import engine.graph.Mesh;
 import engine.graph.Texture;
 
@@ -77,7 +78,7 @@ public class Image extends UIElement {
         float[] textCoordsArr = Utils.listToArray(textCoords);
         int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
         Mesh mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
-        mesh.setTexture(texture);
+        mesh.setMaterial(new Material(texture));
         return mesh;
     }
 

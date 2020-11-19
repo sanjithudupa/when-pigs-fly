@@ -8,6 +8,7 @@ import org.joml.Vector2f;
 
 import engine.Mouse;
 import engine.Utils;
+import engine.graph.Material;
 import engine.graph.Mesh;
 import engine.graph.Texture;
 
@@ -96,7 +97,7 @@ public class Text extends UIElement {
         float[] textCoordsArr = Utils.listToArray(textCoords);
         int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
         Mesh mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
-        mesh.setTexture(texture);
+        mesh.setMaterial(new Material(texture));
         return mesh;
     }
 
@@ -106,7 +107,7 @@ public class Text extends UIElement {
 
     public void setText(String text) {
         this.text = text;
-        Texture texture = this.getMesh().getTexture();
+        Texture texture = this.getMesh().getMaterial().getTexture();
         this.getMesh().deleteBuffers();
         this.setMesh(buildMesh(texture, FONT_COLS, FONT_ROWS));
     }

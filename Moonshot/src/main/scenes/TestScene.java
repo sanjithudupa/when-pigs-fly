@@ -8,6 +8,8 @@ import engine.Mouse;
 import engine.Terrain;
 import engine.Window;
 import engine.graph.*;
+import engine.graph.lighting.DirectionalLight;
+import engine.graph.lighting.SceneLight;
 import engine.scene.Scene;
 import engine.ui.Canvas;
 import main.canvases.TestCanvas;
@@ -16,21 +18,22 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class TestScene implements Scene {
 
-    //required elements
+    // required elements
     private Entity[] entities;
+    private SceneLight sceneLight;
     private Canvas canvas;
     private Camera camera;
 
-    //scene objects
+    // scene objects
     Entity pig, pig2, pig3;
 
-    //scene variables
+    // scene variables
     private final Vector3f cameraMotion;
     private Vector2f rotVec = new Vector2f(0, 0);
 
     private float position = 8.92f;
 
-    public TestScene(Camera camera){
+    public TestScene(Camera camera) {
         this.camera = camera;
         this.cameraMotion = new Vector3f();
         // timer = new Timer();
@@ -51,21 +54,32 @@ public class TestScene implements Scene {
         // Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/hill_old/valley.obj");
         // Texture pigTexture = new Texture("Moonshot/src/resources/textures/hill_light.png");
 
-        // pigMesh.setTexture(pigTexture);
+        // pigMesh.setMaterial(new Material(pigTexture));
         // pig = new Entity(pigMesh);
         // pig2 = new Entity(pigMesh);
         // pig3 = new Entity(pigMesh);
         // // pig.setRotation(180, 0, 0);
 
-        
-        float terrainScale = 4;
+        this.sceneLight = new SceneLight();
+
+        // Ambient Light
+        sceneLight.setAmbientLight(new Vector3f(0.3f, 0.3f, 0.3f));
+        sceneLight.setSkyBoxLight(new Vector3f(1.0f, 1.0f, 1.0f));
+
+        // Directional Light
+        float lightIntensity = 1.0f;
+        Vector3f lightPosition = new Vector3f(1, 1, 0);
+        sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
+
+        float terrainScale = 10;
         int terrainSize = 1;
         float minY = -0.1f;
         float maxY = 0.3f;
         int textInc = 1;
-        Terrain terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "Moonshot/src/resources/textures/moonshot_height_map_invert.jpg", "Moonshot/src/resources/textures/hill_old/hilltex.png", textInc);
-        
-        
+        Terrain terrain = new Terrain(terrainSize, terrainScale, minY, maxY,
+                "Moonshot/src/resources/textures/scale_hm.jpg",
+                "Moonshot/src/resources/textures/hilltex.png", textInc);
+
         entities = terrain.getEntities();
 
         canvas = new TestCanvas();
@@ -95,9 +109,9 @@ public class TestScene implements Scene {
             cameraMotion.y = 1;
         }
 
-        if(window.isKeyPressed(GLFW_KEY_U)) {
+        if (window.isKeyPressed(GLFW_KEY_U)) {
             position += 0.01;
-        }else if(window.isKeyPressed(GLFW_KEY_Y)) {
+        } else if (window.isKeyPressed(GLFW_KEY_Y)) {
             position -= 0.01;
         }
 
@@ -110,7 +124,8 @@ public class TestScene implements Scene {
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-        camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y * Mouse.CAMERA_POS_STEP, cameraMotion.z * Mouse.CAMERA_POS_STEP);
+        camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y * Mouse.CAMERA_POS_STEP,
+                cameraMotion.z * Mouse.CAMERA_POS_STEP);
         camera.moveRotation(rotVec.x * Mouse.MOUSE_SENSITIVITY, rotVec.y * Mouse.MOUSE_SENSITIVITY, 0);
 
         // pig2.setPosition(position, 0, 0);
@@ -122,9 +137,14 @@ public class TestScene implements Scene {
 
     @Override
     public void cleanup() {
-        for(Entity entity : entities){
+        for (Entity entity : entities) {
             entity.getMesh().cleanUp();
         }
+    }
+
+    @Override
+    public SceneLight getSceneLight() {
+        return this.sceneLight;
     }
     
 }

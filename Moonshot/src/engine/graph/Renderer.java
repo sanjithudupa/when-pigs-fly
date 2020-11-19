@@ -6,11 +6,17 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import engine.Entity;
 import engine.Utils;
 import engine.Window;
+import engine.graph.lighting.DirectionalLight;
+import engine.graph.lighting.PointLight;
+import engine.graph.lighting.SceneLight;
+import engine.graph.lighting.SpotLight;
+import engine.scene.Scene;
 import engine.ui.Canvas;
 import engine.ui.UIElement;
 
@@ -23,6 +29,12 @@ public class Renderer {
     private static final float Z_NEAR = 0.01f;
 
     private static final float Z_FAR = 1000.f;
+
+    private static final int MAX_POINT_LIGHTS = 5;
+
+    private static final int MAX_SPOT_LIGHTS = 5;
+
+    private static final float specularPower = 10f;
 
     private Transformation transformation;
 
@@ -46,8 +58,17 @@ public class Renderer {
         sceneShaderProgram.createUniform("projectionMatrix");
         sceneShaderProgram.createUniform("modelViewMatrix");
         sceneShaderProgram.createUniform("texture_sampler");
-        sceneShaderProgram.createUniform("color");
-        sceneShaderProgram.createUniform("useColor");
+        // sceneShaderProgram.createUniform("color");
+        // sceneShaderProgram.createUniform("useColor");
+
+        // Create uniform for material
+        sceneShaderProgram.createMaterialUniform("material");
+        // Create lighting related uniforms
+        sceneShaderProgram.createUniform("specularPower");
+        sceneShaderProgram.createUniform("ambientLight");
+        sceneShaderProgram.createPointLightListUniform("pointLights", MAX_POINT_LIGHTS);
+        sceneShaderProgram.createSpotLightListUniform("spotLights", MAX_SPOT_LIGHTS);
+        sceneShaderProgram.createDirectionalLightUniform("directionalLight");
     }
 
     private void setupUIShader() throws Exception {
@@ -65,7 +86,7 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render(Window window, Camera camera, Entity[] entities, Canvas ui, Canvas overlay) {
+    public void render(Window window, Camera camera, Scene scene, Canvas overlay) {
         clear();
 
         if (window.isResized()) {
@@ -73,12 +94,12 @@ public class Renderer {
             window.setResized(false);
         }
 
-        renderScene(window, camera, entities);
+        renderScene(window, camera, scene);
         renderUI(window, overlay);
-        renderUI(window, ui);
+        renderUI(window, scene.getCanvas());
     }
 
-    public void renderScene(Window window, Camera camera, Entity[] entities){
+    public void renderScene(Window window, Camera camera, Scene scene){
 
         Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
 
@@ -90,20 +111,69 @@ public class Renderer {
         // Update view Matrix
         Matrix4f viewMatrix = transformation.getViewMatrix(camera);
 
+        SceneLight sceneLight = scene.getSceneLight();
+        renderLights(viewMatrix, sceneLight);
+
         // Render each entity
-        for(Entity entity : entities) {
+        for(Entity entity : scene.getEntities()) {
             // Set world matrix for this item
             Matrix4f modelViewMatrix = transformation.getModelViewMatrix(entity, viewMatrix);
             
             sceneShaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
-
-            sceneShaderProgram.setUniform("color", entity.getMesh().getColor());
-            sceneShaderProgram.setUniform("useColor", entity.getMesh().isTextured() ? 0 : 1);
+            sceneShaderProgram.setUniform("material", entity.getMesh().getMaterial());
 
             entity.getMesh().render();
         }
 
         sceneShaderProgram.unbind();
+    }
+
+    private void renderLights(Matrix4f viewMatrix, SceneLight sceneLight) {
+
+        sceneShaderProgram.setUniform("ambientLight", sceneLight.getAmbientLight());
+        sceneShaderProgram.setUniform("specularPower", specularPower);
+
+        // Process Point Lights
+        PointLight[] pointLightList = sceneLight.getPointLightList();
+        int numLights = pointLightList != null ? pointLightList.length : 0;
+        for (int i = 0; i < numLights; i++) {
+            // Get a copy of the point light object and transform its position to view coordinates
+            PointLight currPointLight = new PointLight(pointLightList[i]);
+            Vector3f lightPos = currPointLight.getPosition();
+            Vector4f aux = new Vector4f(lightPos, 1);
+            aux.mul(viewMatrix);
+            lightPos.x = aux.x;
+            lightPos.y = aux.y;
+            lightPos.z = aux.z;
+            sceneShaderProgram.setUniform("pointLights", currPointLight, i);
+        }
+
+        // Process Spot Ligths
+        SpotLight[] spotLightList = sceneLight.getSpotLightList();
+        numLights = spotLightList != null ? spotLightList.length : 0;
+        for (int i = 0; i < numLights; i++) {
+            // Get a copy of the spot light object and transform its position and cone direction to view coordinates
+            SpotLight currSpotLight = new SpotLight(spotLightList[i]);
+            Vector4f dir = new Vector4f(currSpotLight.getConeDirection(), 0);
+            dir.mul(viewMatrix);
+            currSpotLight.setConeDirection(new Vector3f(dir.x, dir.y, dir.z));
+
+            Vector3f lightPos = currSpotLight.getPointLight().getPosition();
+            Vector4f aux = new Vector4f(lightPos, 1);
+            aux.mul(viewMatrix);
+            lightPos.x = aux.x;
+            lightPos.y = aux.y;
+            lightPos.z = aux.z;
+
+            sceneShaderProgram.setUniform("spotLights", currSpotLight, i);
+        }
+
+        // Get a copy of the directional light object and transform its position to view coordinates
+        DirectionalLight currDirLight = new DirectionalLight(sceneLight.getDirectionalLight());
+        Vector4f dir = new Vector4f(currDirLight.getDirection(), 0);
+        dir.mul(viewMatrix);
+        currDirLight.setDirection(new Vector3f(dir.x, dir.y, dir.z));
+        sceneShaderProgram.setUniform("directionalLight", currDirLight);
     }
 
     private void renderUI(Window window, Canvas ui) {
