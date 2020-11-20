@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector3f;
-import org.joml.Vector4f;
+// import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
 
 import engine.graph.Material;
@@ -62,8 +62,8 @@ public class HeightMap {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 float yValue = getHeight(col, row, width, buf);
-
-                System.out.println(yValue < minY);
+                boolean bigger = this.minY + Math.abs(this.maxY - this.minY)/2 < yValue;
+                System.out.println(bigger);
 
                 // Create vertex for current position
                 positions.add(STARTX + col * incx); // x
@@ -198,6 +198,7 @@ public class HeightMap {
         byte a = buffer.get(x * 4 + 3 + z * 4 * width);
         int argb = ((0xFF & a) << 24) | ((0xFF & r) << 16)
                 | ((0xFF & g) << 8) | (0xFF & b);
+        // System.out.println(argb + ", " + MAX);
         return this.minY + Math.abs(this.maxY - this.minY) * ((float) argb / (float) MAX);
     }
 }
