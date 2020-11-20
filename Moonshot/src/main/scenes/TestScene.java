@@ -71,20 +71,20 @@ public class TestScene implements Scene {
         Vector3f lightPosition = new Vector3f(1, 1, 0);
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
 
-        float terrainScale = 10;
+        float terrainScale = 50;
         int terrainSize = 1;
         float minY = -0.1f;
         float maxY = 0.3f;
         int textInc = 1;
         Entity terrain = new Terrain(terrainSize, terrainScale, minY, maxY,
                 "Moonshot/src/resources/textures/scale_hm.jpg",
-                "Moonshot/src/resources/textures/hilltex.png", textInc).getEntities()[0];
+                "Moonshot/src/resources/textures/softgreen.png", textInc).getEntities()[0];
 
         Entity terrain2 = new Terrain(terrainSize, terrainScale, minY, maxY,
         "Moonshot/src/resources/textures/scale_hm_i.jpg",
-        "Moonshot/src/resources/textures/hilltex.png", textInc).getEntities()[0];
+        "Moonshot/src/resources/textures/softgreen.png", textInc).getEntities()[0];
 
-        terrain2.setPosition(10, 0, 0);
+        terrain2.setPosition(terrainScale, 0, 0);
 
         // List<Entity> allEntities = new ArrayList<Entity>();
         

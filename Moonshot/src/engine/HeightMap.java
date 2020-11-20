@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
 
 import engine.graph.Material;
@@ -60,9 +61,13 @@ public class HeightMap {
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
+                float yValue = getHeight(col, row, width, buf);
+
+                System.out.println(yValue < minY);
+
                 // Create vertex for current position
                 positions.add(STARTX + col * incx); // x
-                positions.add(getHeight(col, row, width, buf)); //y
+                positions.add(yValue); //y
                 positions.add(STARTZ + row * incz); //z
 
                 // Set texture coordinates
@@ -92,7 +97,11 @@ public class HeightMap {
         float[] textCoordsArr = Utils.listToArray(textCoords);
         float[] normalsArr = calcNormals(posArr, width, height);
         this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
-        Material material = new Material(texture, 0.0f);
+        Material material = new Material(texture);
+        // material.setAmbientColor(new Vector4f(0.596f, 1, 0.596f, 1.0f));
+        // material.setReflectance(reflectance);
+        // material.setAmbientColor(new Vector4f(0.0f, 0, 0.0f, 0.5f));
+
         mesh.setMaterial(material);
 
         stbi_image_free(buf);
