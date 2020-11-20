@@ -25,4 +25,13 @@ public class Utils {
         }
         return floatArr;
     }
+
+    public static Entity[] listToArrayEntities(List<Entity> list) {
+        int size = list != null ? list.size() : 0;
+        Entity[] entityArr = new Entity[size];
+        for (int i = 0; i < size; i++) {
+            entityArr[i] = list.get(i);
+        }
+        return entityArr;
+    }
 }

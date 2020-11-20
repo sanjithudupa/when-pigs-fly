@@ -31,7 +31,7 @@ public class TestScene implements Scene {
     private final Vector3f cameraMotion;
     private Vector2f rotVec = new Vector2f(0, 0);
 
-    private float position = 8.92f;
+    // private float position = 8.92f;
 
     public TestScene(Camera camera) {
         this.camera = camera;
@@ -51,11 +51,11 @@ public class TestScene implements Scene {
 
     @Override
     public void init(Window window) throws Exception {
-        // Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/hill_old/valley.obj");
-        // Texture pigTexture = new Texture("Moonshot/src/resources/textures/hill_light.png");
+        Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
+        Texture pigTexture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
 
-        // pigMesh.setMaterial(new Material(pigTexture));
-        // pig = new Entity(pigMesh);
+        pigMesh.setMaterial(new Material(pigTexture));
+        pig = new Entity(pigMesh);
         // pig2 = new Entity(pigMesh);
         // pig3 = new Entity(pigMesh);
         // // pig.setRotation(180, 0, 0);
@@ -76,11 +76,30 @@ public class TestScene implements Scene {
         float minY = -0.1f;
         float maxY = 0.3f;
         int textInc = 1;
-        Terrain terrain = new Terrain(terrainSize, terrainScale, minY, maxY,
+        Entity terrain = new Terrain(terrainSize, terrainScale, minY, maxY,
                 "Moonshot/src/resources/textures/scale_hm.jpg",
-                "Moonshot/src/resources/textures/hilltex.png", textInc);
+                "Moonshot/src/resources/textures/hilltex.png", textInc).getEntities()[0];
 
-        entities = terrain.getEntities();
+        Entity terrain2 = new Terrain(terrainSize, terrainScale, minY, maxY,
+        "Moonshot/src/resources/textures/scale_hm_i.jpg",
+        "Moonshot/src/resources/textures/hilltex.png", textInc).getEntities()[0];
+
+        terrain2.setPosition(10, 0, 0);
+
+        // List<Entity> allEntities = new ArrayList<Entity>();
+        
+        // for(Entity e : terrain.getEntities()){
+        //     allEntities.add(e);
+        // }
+
+        // for(Entity e : terrain2.getEntities()){
+        //     e.setPosition(10, 0, 0);
+        //     allEntities.add(e);
+        // }
+
+        // System.out.println(allEntities.size());
+
+        entities = new Entity[] { pig, terrain, terrain2 };
 
         canvas = new TestCanvas();
 
@@ -109,11 +128,11 @@ public class TestScene implements Scene {
             cameraMotion.y = 1;
         }
 
-        if (window.isKeyPressed(GLFW_KEY_U)) {
-            position += 0.01;
-        } else if (window.isKeyPressed(GLFW_KEY_Y)) {
-            position -= 0.01;
-        }
+        // if (window.isKeyPressed(GLFW_KEY_U)) {
+        //     position += 0.01;
+        // } else if (window.isKeyPressed(GLFW_KEY_Y)) {
+        //     position -= 0.01;
+        // }
 
         if (mouseInput.isRightButtonPressed())
             rotVec = mouseInput.getDisplVec();
@@ -130,7 +149,6 @@ public class TestScene implements Scene {
 
         // pig2.setPosition(position, 0, 0);
         // pig3.setPosition(-position, 0, 0);
-        System.out.println(position);
 
         canvas.input(mouseInput);
     }

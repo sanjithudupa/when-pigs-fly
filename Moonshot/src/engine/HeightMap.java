@@ -86,6 +86,7 @@ public class HeightMap {
                 }
             }
         }
+
         float[] posArr = Utils.listToArray(positions);
         int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
         float[] textCoordsArr = Utils.listToArray(textCoords);
