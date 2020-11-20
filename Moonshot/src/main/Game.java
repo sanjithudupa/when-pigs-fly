@@ -41,7 +41,7 @@ public class Game implements GameLogic {
     public void init(Window window) throws Exception {
         renderer.init(window);
 
-        Scene[] scenes = new Scene[] { new TestScene(camera), new TestScene(camera) };
+        Scene[] scenes = new Scene[] { new Flying(camera), new Flying(camera) };
         overlay = new Overlay();
 
         sceneManager.init(scenes, window);

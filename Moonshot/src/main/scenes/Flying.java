@@ -16,7 +16,7 @@ import main.canvases.TestCanvas;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class TestScene implements Scene {
+public class Flying implements Scene {
 
     // required elements
     private Entity[] entities;
@@ -33,7 +33,7 @@ public class TestScene implements Scene {
 
     // private float position = 8.92f;
 
-    public TestScene(Camera camera) {
+    public Flying(Camera camera) {
         this.camera = camera;
         this.cameraMotion = new Vector3f();
         // timer = new Timer();
@@ -56,9 +56,6 @@ public class TestScene implements Scene {
 
         pigMesh.setMaterial(new Material(pigTexture));
         pig = new Entity(pigMesh);
-        // pig2 = new Entity(pigMesh);
-        // pig3 = new Entity(pigMesh);
-        // // pig.setRotation(180, 0, 0);
 
         this.sceneLight = new SceneLight();
 
@@ -77,11 +74,11 @@ public class TestScene implements Scene {
         float maxY = 0.3f;
         int textInc = 20;
         Entity terrain = new Terrain(terrainSize, terrainScale, minY, maxY,
-                "Moonshot/src/resources/textures/scale_hm.jpg",
+                "Moonshot/src/resources/textures/height_maps/scale_hm.jpg",
                 "Moonshot/src/resources/textures/grass.jpeg", textInc).getEntities()[0];
 
         Entity terrain2 = new Terrain(terrainSize, terrainScale, minY, maxY,
-        "Moonshot/src/resources/textures/scale_hm_i.jpg",
+        "Moonshot/src/resources/textures/height_maps/scale_hm_i.jpg",
         "Moonshot/src/resources/textures/grass.jpeg", textInc).getEntities()[0];
 
         terrain2.setPosition(terrainScale, 0, 0);
