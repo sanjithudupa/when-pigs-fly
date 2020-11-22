@@ -9,7 +9,7 @@ public class TestCanvas implements Canvas {
     private final UIElement[] elements;
 
     public TestCanvas() throws Exception {
-        Image image = new Image("Moonshot/src/resources/textures/tex_pig.png");
+        Image image = new Image("Moonshot/src/resources/textures/pig.png");
         image.setScale(10);
         image.setCentered(false);
 

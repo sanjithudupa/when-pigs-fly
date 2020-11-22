@@ -62,8 +62,8 @@ public class HeightMap {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 float yValue = getHeight(col, row, width, buf);
-                boolean bigger = this.minY + Math.abs(this.maxY - this.minY)/2 < yValue;
-                System.out.println(bigger);
+                // boolean bigger = this.minY + Math.abs(this.maxY - this.minY)/2 < yValue;
+                // System.out.println(bigger);
 
                 // Create vertex for current position
                 positions.add(STARTX + col * incx); // x

@@ -36,6 +36,12 @@ public class Entity {
         this.position.z = z;
     }
 
+    public void setPosition(Vector3f pos) {
+        this.position.x = pos.x;
+        this.position.y = pos.y;
+        this.position.z = pos.z;
+    }
+
     public float getScale() {
         return scale;
     }
@@ -52,6 +58,12 @@ public class Entity {
         this.rotation.x = x;
         this.rotation.y = y;
         this.rotation.z = z;
+    }
+
+    public void setRotation(Vector3f rot) {
+        this.rotation.x = rot.x;
+        this.rotation.y = rot.y;
+        this.rotation.z = rot.z;
     }
 
     public Mesh getMesh() {

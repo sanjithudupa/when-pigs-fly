@@ -25,17 +25,18 @@ public class Flying implements Scene {
     private Camera camera;
 
     // scene objects
-    Entity pig, pig2, pig3;
+    Entity pig, glider;
 
     // scene variables
-    private final Vector3f cameraMotion;
-    private Vector2f rotVec = new Vector2f(0, 0);
+    private Vector3f cameraOffset = new Vector3f(0, 5, -5);
+    private Vector3f movement;
 
     // private float position = 8.92f;
 
     public Flying(Camera camera) {
         this.camera = camera;
-        this.cameraMotion = new Vector3f();
+        this.movement = new Vector3f(0, 0, 0.25f);
+        // this.cameraMotion = new Vector3f();
         // timer = new Timer();
     }
 
@@ -51,8 +52,13 @@ public class Flying implements Scene {
 
     @Override
     public void init(Window window) throws Exception {
+        Mesh gliderMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/glider.obj");
+
         Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        Texture pigTexture = new Texture("Moonshot/src/resources/textures/Tex_Pig.png");
+        Texture pigTexture = new Texture("Moonshot/src/resources/textures/pig.png");
+
+        gliderMesh.setMaterial(new Material());
+        glider = new Entity(gliderMesh);
 
         pigMesh.setMaterial(new Material(pigTexture));
         pig = new Entity(pigMesh);
@@ -83,20 +89,10 @@ public class Flying implements Scene {
 
         terrain2.setPosition(terrainScale, 0, 0);
 
-        // List<Entity> allEntities = new ArrayList<Entity>();
-        
-        // for(Entity e : terrain.getEntities()){
-        //     allEntities.add(e);
-        // }
+        glider.setRotation(20, 180, 0);
+        glider.setScale(1.15f);
 
-        // for(Entity e : terrain2.getEntities()){
-        //     e.setPosition(10, 0, 0);
-        //     allEntities.add(e);
-        // }
-
-        // System.out.println(allEntities.size());
-
-        entities = new Entity[] { pig, terrain, terrain2 };
+        entities = new Entity[] { pig, glider, terrain, terrain2 };
 
         canvas = new TestCanvas();
 
@@ -105,48 +101,62 @@ public class Flying implements Scene {
 
     @Override
     public void input(Window window, Mouse mouseInput) {
-        cameraMotion.set(0, 0, 0);
-
         if (window.isKeyPressed(GLFW_KEY_W)) {
-            cameraMotion.z = -1;
+            pig.getRotation().x -= 1;
         } else if (window.isKeyPressed(GLFW_KEY_S)) {
-            cameraMotion.z = 1;
+            pig.getRotation().x += 1;
         }
 
         if (window.isKeyPressed(GLFW_KEY_A)) {
-            cameraMotion.x = -1;
+            pig.getRotation().z += 1;
         } else if (window.isKeyPressed(GLFW_KEY_D)) {
-            cameraMotion.x = 1;
+            pig.getRotation().z -= 1;
         }
 
-        if (window.isKeyPressed(GLFW_KEY_Q)) {
-            cameraMotion.y = -1;
-        } else if (window.isKeyPressed(GLFW_KEY_E)) {
-            cameraMotion.y = 1;
-        }
-
-        // if (window.isKeyPressed(GLFW_KEY_U)) {
-        //     position += 0.01;
-        // } else if (window.isKeyPressed(GLFW_KEY_Y)) {
-        //     position -= 0.01;
+        // if (window.isKeyPressed(GLFW_KEY_Q)) {
+        //     pig.getPosition().y += -0.1;
+        // } else if (window.isKeyPressed(GLFW_KEY_E)) {
+        //     pig.getPosition().y += 0.1;
         // }
 
-        if (mouseInput.isRightButtonPressed())
-            rotVec = mouseInput.getDisplVec();
-        else
-            rotVec = new Vector2f(0, 0);
+        // if (window.isKeyPressed(GLFW_KEY_U)) {
+        //     pig.getPosition().x += 0.1;
+        // } else if (window.isKeyPressed(GLFW_KEY_Y)) {
+        //     pig.getPosition().x -= 0.1;
+        // }
+
+        // if (window.isKeyPressed(GLFW_KEY_X)) {
+        // } else if (window.isKeyPressed(GLFW_KEY_V)) {
+        //     pig.getRotation().x -= 1;
+        // }
+
+        // if (mouseInput.isRightButtonPressed())
+        //     rotVec = mouseInput.getDisplVec();
+        // else
+        //     rotVec = new Vector2f(0, 0);
 
     }
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-        camera.movePosition(cameraMotion.x * Mouse.CAMERA_POS_STEP, cameraMotion.y * Mouse.CAMERA_POS_STEP,
-                cameraMotion.z * Mouse.CAMERA_POS_STEP);
-        camera.moveRotation(rotVec.x * Mouse.MOUSE_SENSITIVITY, rotVec.y * Mouse.MOUSE_SENSITIVITY, 0);
+        pig.getPosition().x += movement.x;
+        pig.getPosition().y += movement.y;
+        pig.getPosition().z += movement.z;
 
-        // pig2.setPosition(position, 0, 0);
-        // pig3.setPosition(-position, 0, 0);
+        Vector3f pigPos = pig.getPosition();
+        Vector3f pigRot = pig.getRotation();
 
+        camera.setPosition(new Vector3f(0, pigPos.y + cameraOffset.y, pigPos.z + cameraOffset.z));
+
+        Vector3f cameraPos = camera.getPosition();
+
+        float cameraXLook = (float)Math.toDegrees(Math.atan2(pigPos.z - cameraPos.z, cameraPos.y - pigPos.y));
+        
+        camera.setRotation(cameraXLook, 180, 0);
+
+        glider.setPosition(pig.getPosition());
+        glider.setRotation(new Vector3f(pigRot.x + 20, pigRot.y + 180, -pigRot.z));
+        
         canvas.input(mouseInput);
     }
 
