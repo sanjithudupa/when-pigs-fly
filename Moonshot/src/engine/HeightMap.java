@@ -20,14 +20,19 @@ import static org.lwjgl.stb.STBImage.stbi_load;
 public class HeightMap {
     private static final int MAX = 255 * 255 * 255;
 
-    private static final float STARTX = -0.5f;
+    public static final float STARTX = -0.5f;
 
-    private static final float STARTZ = -0.5f;
+    public static final float STARTZ = -0.5f;
 
     private final float minY;
     private final float maxY;
 
     private final Mesh mesh;
+
+    public int verticesPerCol;
+    public int verticesPerRow;
+
+    private final float[][] heights;
 
     public HeightMap(float minY, float maxY, String heightMapFile, String textureFile, int textInc) throws Exception {
         this.minY = minY;
@@ -50,6 +55,11 @@ public class HeightMap {
             height = h.get();
         }
 
+        heights = new float[height][width];
+
+        verticesPerCol = width - 1;
+        verticesPerRow = height - 1;
+
         Texture texture = new Texture(textureFile);
 
         float incx = getXLength() / (width - 1);
@@ -62,8 +72,8 @@ public class HeightMap {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 float yValue = getHeight(col, row, width, buf);
-                // boolean bigger = this.minY + Math.abs(this.maxY - this.minY)/2 < yValue;
-                // System.out.println(bigger);
+                
+                heights[row][col] = yValue;
 
                 // Create vertex for current position
                 positions.add(STARTX + col * incx); // x
@@ -200,5 +210,15 @@ public class HeightMap {
                 | ((0xFF & g) << 8) | (0xFF & b);
         // System.out.println(argb + ", " + MAX);
         return this.minY + Math.abs(this.maxY - this.minY) * ((float) argb / (float) MAX);
+    }
+
+    public float getHeight(int row, int col) {
+        float result = 0;
+        if ( row >= 0 && row < heights.length ) {
+            if ( col >= 0 && col < heights[row].length ) {
+                result = heights[row][col];
+            }
+        }
+        return result;
     }
 }

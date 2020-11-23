@@ -24,7 +24,8 @@ public class Flying implements Scene {
     private Camera camera;
 
     // scene objects
-    Entity pig, glider;
+    Entity pig, glider, terrain, terrain2;
+    Terrain terrainObj, terrainObj2;
 
     // scene variables
     private Vector3f cameraOffset = new Vector3f(0, 5, -5);
@@ -80,13 +81,16 @@ public class Flying implements Scene {
         float maxY = 0.3f;
         int textInc = 20;
         
-        Entity terrain = new Terrain(terrainSize, terrainScale, minY, maxY,
+        terrainObj = new Terrain(terrainSize, terrainScale, minY, maxY,
                 "Moonshot/src/resources/textures/height_maps/scale_hm.jpg",
-                "Moonshot/src/resources/textures/grass.jpeg", textInc).getEntities()[0];
+                "Moonshot/src/resources/textures/grass.jpeg", textInc);
 
-        Entity terrain2 = new Terrain(terrainSize, terrainScale, minY, maxY,
+        terrainObj2 = new Terrain(terrainSize, terrainScale, minY, maxY,
         "Moonshot/src/resources/textures/height_maps/scale_hm_i.jpg",
-        "Moonshot/src/resources/textures/grass.jpeg", textInc).getEntities()[0];
+        "Moonshot/src/resources/textures/grass.jpeg", textInc);
+        
+        terrain = terrainObj.getEntities()[0];
+        terrain2 = terrainObj2.getEntities()[0];
 
         terrain.getRotation().y = 90;
         terrain2.getRotation().y = 90;
@@ -127,6 +131,9 @@ public class Flying implements Scene {
         Vector3f pigRot = pig.getRotation();
 
         movementSpeed = (90 - pig.getRotation().x)/90;
+        
+        float groundPos = terrainObj.getHeight(pig.getPosition());
+        System.out.println(pig.getPosition().y <= groundPos);
 
         movement.x = -movementSpeed * (float)Math.sin(Math.toRadians(yRot));
         movement.z = movementSpeed * (float)Math.cos(Math.toRadians(yRot));
