@@ -1,6 +1,5 @@
 package main.scenes;
 
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import engine.Entity;
@@ -29,15 +28,16 @@ public class Flying implements Scene {
 
     // scene variables
     private Vector3f cameraOffset = new Vector3f(0, 5, -5);
-    private Vector3f movement;
+    private float movementSpeed = 0.15f;
 
-    // private float position = 8.92f;
+    private Vector3f movement;
+    private float yRot;
+    private float dive = -0.4f;
+    private float gravity = 0.5f;
 
     public Flying(Camera camera) {
         this.camera = camera;
-        this.movement = new Vector3f(0, 0, 0.25f);
-        // this.cameraMotion = new Vector3f();
-        // timer = new Timer();
+        this.movement = new Vector3f(0, 0, movementSpeed);
     }
 
     @Override
@@ -74,11 +74,12 @@ public class Flying implements Scene {
         Vector3f lightPosition = new Vector3f(1, 1, 0);
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
 
-        float terrainScale = 50;
+        float terrainScale = 500;
         int terrainSize = 1;
         float minY = -0.1f;
         float maxY = 0.3f;
         int textInc = 20;
+        
         Entity terrain = new Terrain(terrainSize, terrainScale, minY, maxY,
                 "Moonshot/src/resources/textures/height_maps/scale_hm.jpg",
                 "Moonshot/src/resources/textures/grass.jpeg", textInc).getEntities()[0];
@@ -87,66 +88,57 @@ public class Flying implements Scene {
         "Moonshot/src/resources/textures/height_maps/scale_hm_i.jpg",
         "Moonshot/src/resources/textures/grass.jpeg", textInc).getEntities()[0];
 
-        terrain2.setPosition(terrainScale, 0, 0);
+        terrain.getRotation().y = 90;
+        terrain2.getRotation().y = 90;
+        terrain2.setPosition(0, 0, terrainScale);
 
-        glider.setRotation(20, 180, 0);
+        glider.setRotation(-20, 180, 0);
         glider.setScale(1.15f);
+
+        pig.setRotation(-40, 0, 0);
 
         entities = new Entity[] { pig, glider, terrain, terrain2 };
 
         canvas = new TestCanvas();
-
-        // camera.setPosition(0, 0, 0);
     }
 
     @Override
     public void input(Window window, Mouse mouseInput) {
         if (window.isKeyPressed(GLFW_KEY_W)) {
             pig.getRotation().x -= 1;
+            dive -= 0.015;
         } else if (window.isKeyPressed(GLFW_KEY_S)) {
             pig.getRotation().x += 1;
+            if(dive < 0)
+                dive += 0.01;
         }
 
         if (window.isKeyPressed(GLFW_KEY_A)) {
             pig.getRotation().z += 1;
+            yRot -= 1;
         } else if (window.isKeyPressed(GLFW_KEY_D)) {
             pig.getRotation().z -= 1;
+            yRot += 1;
         }
-
-        // if (window.isKeyPressed(GLFW_KEY_Q)) {
-        //     pig.getPosition().y += -0.1;
-        // } else if (window.isKeyPressed(GLFW_KEY_E)) {
-        //     pig.getPosition().y += 0.1;
-        // }
-
-        // if (window.isKeyPressed(GLFW_KEY_U)) {
-        //     pig.getPosition().x += 0.1;
-        // } else if (window.isKeyPressed(GLFW_KEY_Y)) {
-        //     pig.getPosition().x -= 0.1;
-        // }
-
-        // if (window.isKeyPressed(GLFW_KEY_X)) {
-        // } else if (window.isKeyPressed(GLFW_KEY_V)) {
-        //     pig.getRotation().x -= 1;
-        // }
-
-        // if (mouseInput.isRightButtonPressed())
-        //     rotVec = mouseInput.getDisplVec();
-        // else
-        //     rotVec = new Vector2f(0, 0);
-
     }
 
     @Override
     public void update(float interval, Mouse mouseInput) {
+        Vector3f pigRot = pig.getRotation();
+
+        movementSpeed = (90 - pig.getRotation().x)/90;
+
+        movement.x = -movementSpeed * (float)Math.sin(Math.toRadians(yRot));
+        movement.z = movementSpeed * (float)Math.cos(Math.toRadians(yRot));
+        movement.y = movementSpeed * (float)Math.cos(Math.toRadians(90 - pigRot.x)) + dive - gravity;
+        
         pig.getPosition().x += movement.x;
         pig.getPosition().y += movement.y;
         pig.getPosition().z += movement.z;
 
         Vector3f pigPos = pig.getPosition();
-        Vector3f pigRot = pig.getRotation();
 
-        camera.setPosition(new Vector3f(0, pigPos.y + cameraOffset.y, pigPos.z + cameraOffset.z));
+        camera.setPosition(new Vector3f(pigPos.x, pigPos.y + cameraOffset.y, pigPos.z + cameraOffset.z));
 
         Vector3f cameraPos = camera.getPosition();
 
