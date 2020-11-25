@@ -8,7 +8,7 @@ public class Main {
         try {
             boolean vSync = true;
             GameLogic gameLogic = new Game();
-            GameEngine gameEng = new GameEngine("GAME",
+            GameEngine gameEng = new GameEngine("When Pigs Fly - sanjithar productions",
                 1920, 1080, vSync, gameLogic);
             gameEng.start();
         } catch (Exception excp) {
