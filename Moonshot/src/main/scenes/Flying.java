@@ -145,7 +145,7 @@ public class Flying implements Scene {
 
         float normalizedZ = zPos/terrainHalfLength;
         float adjustZ = normalizedZ - (int)normalizedZ;
-        float newZ = (terrainScale * adjustZ)/2;
+        float newZ = ((terrainScale * adjustZ)/2);
 
         Vector3f adjustedPigPos = new Vector3f(pig.getPosition().x, pig.getPosition().y, newZ);
 
@@ -154,7 +154,8 @@ public class Flying implements Scene {
         // cube.setPosition(adjustedPigPos);
 
         boolean collided = pig.getPosition().y -10 <= groundPos;
-        System.out.println(collided);
+        // System.out.println(pig.getPosition().y);
+        System.out.println(adjustedPigPos.x + ", " + adjustedPigPos.y + ", " + adjustedPigPos.z);
 
         movement.x = -movementSpeed * (float)Math.sin(Math.toRadians(yRot));
         movement.z = movementSpeed * (float)Math.cos(Math.toRadians(yRot));

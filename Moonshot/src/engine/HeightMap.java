@@ -3,6 +3,7 @@ package engine;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.joml.Vector3f;
@@ -33,6 +34,8 @@ public class HeightMap {
     public int verticesPerRow;
 
     private final float[][] heights;
+    private final boolean[][] aboveHalf;
+    double median;
 
     public HeightMap(float minY, float maxY, String heightMapFile, String textureFile, int textInc) throws Exception {
         this.minY = minY;
@@ -56,6 +59,7 @@ public class HeightMap {
         }
 
         heights = new float[height][width];
+        aboveHalf = new boolean[height][width];
 
         verticesPerCol = width - 1;
         verticesPerRow = height - 1;
@@ -69,11 +73,15 @@ public class HeightMap {
         List<Float> textCoords = new ArrayList<>();
         List<Integer> indices = new ArrayList<>();
 
+        // getHeightPrint(0, 1, width, buf);
+        // System.out.println(min);
+
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 float yValue = getHeight(col, row, width, buf);
                 
                 heights[row][col] = yValue;
+                // System.out.println(yValue);
 
                 // Create vertex for current position
                 positions.add(STARTX + col * incx); // x
@@ -102,6 +110,25 @@ public class HeightMap {
             }
         }
 
+        float[] medianHeight = new float[height*width];
+
+        int count = 0;
+        for(float[] x : heights) {
+            for(float y : x){
+                medianHeight[count] = y;
+                count++;
+            }
+        }
+
+        Arrays.sort(medianHeight);
+        count = medianHeight.length;
+
+        if (count % 2 != 0) {
+            median = medianHeight[count/2];
+        }else {
+            median = (medianHeight[(count - 1) / 2] + medianHeight[count / 2]) / 2.0;
+        }
+        
         float[] posArr = Utils.listToArray(positions);
         int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
         float[] textCoordsArr = Utils.listToArray(textCoords);

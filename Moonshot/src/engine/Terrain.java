@@ -13,6 +13,8 @@ public class Terrain {
 
     private final Box2D[][] boundingBoxes;
 
+    // private final boolean[][] aboveHalf;
+
     public Terrain(int terrainSize, float scale, float minY, float maxY, String heightMap, String textureFile, int textInc) throws Exception {
         entities = new Entity[terrainSize * terrainSize];
         this.heightMapMesh = new HeightMap(minY, maxY, heightMap, textureFile, textInc);
@@ -20,6 +22,7 @@ public class Terrain {
         this.terrainSize = terrainSize;
         this.verticesPerCol = this.heightMapMesh.verticesPerCol;
         this.verticesPerRow = this.heightMapMesh.verticesPerRow;
+        // this.aboveHalf = this.heightMapMesh.aboveHalf;
         
         boundingBoxes = new Box2D[terrainSize][terrainSize];
 
