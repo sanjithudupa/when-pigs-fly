@@ -45,6 +45,8 @@ public class Flying implements Scene {
     private float gravity = 0.5f;
 
     private int chunks = 1;
+    private int deathIterations = 0;
+    private boolean dead = false;
 
     public Flying(Camera camera) {
         this.camera = camera;
@@ -169,6 +171,7 @@ public class Flying implements Scene {
         if(collided) {
             movement = new Vector3f();
             pig.setPosition(collision);
+            deathIterations++;
         }
 
         if(!collided){
@@ -193,6 +196,12 @@ public class Flying implements Scene {
 
         glider.setPosition(pig.getPosition());
         glider.setRotation(new Vector3f(pigRot.x + 20, pigRot.y + 180, -pigRot.z));
+
+        if(deathIterations > 10) {
+            dead = true;
+        }
+
+        System.out.println(dead);
         
         canvas.input(mouseInput);
     }
