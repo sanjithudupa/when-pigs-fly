@@ -22,13 +22,15 @@ public class Menu implements Scene {
     private Entity[] entities;
     private SceneLight sceneLight;
     private Canvas canvas;
-    // private Camera camera;
+    private Camera camera;
 
     // scene objects
     Entity logo, pig, glider;
 
+    int direction = 1;
+
     public Menu(Camera camera) {
-        // this.camera = camera;
+        this.camera = camera;
     }
 
     @Override
@@ -66,10 +68,12 @@ public class Menu implements Scene {
         pigMesh.setMaterial(new Material(pigTexture));
         pig = new Entity(pigMesh);
 
-        pig.setPosition(0, -2, -5);
-        pig.setRotation(0, 50, 0);
+        camera.setPosition(0, 0, 0);
         
-        this.entities = new Entity[] { logo, pig };
+        pig.setPosition(0, -2.5f, -5);
+        // pig.setRotation(-20, 0, 0);
+
+        this.entities = new Entity[] { pig, glider };
     }
 
     @Override
@@ -82,10 +86,19 @@ public class Menu implements Scene {
     public void update(float interval, Mouse mouseInput) {
         logo.getRotation().z += 0.15;
 
+        System.out.println(pig.getRotation().y);
+
+        if(pig.getRotation().y >= 90 || pig.getRotation().y <= -40)
+            direction *= -1;
+        
+        pig.getRotation().y += direction * 0.1;
+        pig.getRotation().x -= direction * 0.05;
+        pig.getRotation().z -= direction * 0.025;
+
         Vector3f pigRot = pig.getRotation();
 
         glider.setPosition(pig.getPosition());
-        glider.setRotation(new Vector3f(pigRot.x + 20, pigRot.y + 180, -pigRot.z));
+        glider.setRotation(new Vector3f(pigRot.x+22.5f, pigRot.y + 180, -pigRot.z));
     }
 
     @Override

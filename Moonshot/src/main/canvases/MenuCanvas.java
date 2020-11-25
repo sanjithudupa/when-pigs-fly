@@ -12,7 +12,7 @@ public class MenuCanvas implements Canvas {
         image.setScale(2);
         image.setPosition(482, 0, 0);
 
-        elements = new UIElement[] {  };
+        elements = new UIElement[] { image };
     }
 
     @Override
