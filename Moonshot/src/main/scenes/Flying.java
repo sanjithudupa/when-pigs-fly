@@ -11,7 +11,7 @@ import engine.graph.lighting.DirectionalLight;
 import engine.graph.lighting.SceneLight;
 import engine.scene.Scene;
 import engine.ui.Canvas;
-import main.canvases.TestCanvas;
+import main.canvases.FlyingCanvas;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -20,7 +20,7 @@ public class Flying implements Scene {
     // required elements
     private Entity[] entities;
     private SceneLight sceneLight;
-    private Canvas canvas;
+    private FlyingCanvas canvas;
     private Camera camera;
 
     // scene objects
@@ -118,7 +118,7 @@ public class Flying implements Scene {
 
         entities = new Entity[] { pig, glider, terrain, terrain2 };
 
-        canvas = new TestCanvas();
+        canvas = new FlyingCanvas();
     }
 
     @Override
@@ -170,9 +170,12 @@ public class Flying implements Scene {
 
         if(collided) {
             movement = new Vector3f();
-            pig.setPosition(collision);
+            if(!dead)
+                pig.setPosition(collision);
             deathIterations++;
         }
+
+        canvas.danger(collided);
 
         if(!collided){
             movement.x = -movementSpeed * (float)Math.sin(Math.toRadians(yRot));
@@ -202,6 +205,8 @@ public class Flying implements Scene {
         }
 
         System.out.println(dead);
+
+        canvas.setDistance((int)pigPos.z);
         
         canvas.input(mouseInput);
     }

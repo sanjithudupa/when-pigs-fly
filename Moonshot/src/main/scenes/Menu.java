@@ -25,7 +25,7 @@ public class Menu implements Scene {
     private Camera camera;
 
     // scene objects
-    Entity logo, pig, glider;
+    Entity pig, glider;
 
     int direction = 1;
 
@@ -45,17 +45,7 @@ public class Menu implements Scene {
         // Directional Light
         float lightIntensity = 0.5f;
         Vector3f lightPosition = new Vector3f(0, 90, 0);
-        sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
-        
-        Mesh logoMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/logo.obj");
-        Texture logoTexture = new Texture("Moonshot/src/resources/textures/logo_texture.png");
-
-        logoMesh.setMaterial(new Material(logoTexture));
-        logo = new Entity(logoMesh);
-
-        logo.setRotation(80, 180, 180);
-        logo.setPosition(0, 1.5f, -5);
-        logo.setScale(0.8f);
+        sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity)); 
 
         Mesh gliderMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/glider.obj");
 
@@ -78,13 +68,11 @@ public class Menu implements Scene {
 
     @Override
     public void input(Window window, Mouse mouseInput) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-        logo.getRotation().z += 0.15;
 
         System.out.println(pig.getRotation().y);
 

@@ -25,6 +25,8 @@ public class Game implements GameLogic {
     private float transitionStart;
     private float transitionTime = 1.0f;
     private boolean[] transitioning = {false};
+    
+    private Scene[] scenes;
 
     private int sceneTarget = 0;
 
@@ -41,7 +43,7 @@ public class Game implements GameLogic {
     public void init(Window window) throws Exception {
         renderer.init(window);
 
-        Scene[] scenes = new Scene[] { new Menu(camera), new Flying(camera) };
+        scenes = new Scene[] { new Menu(camera), new Flying(camera) };
         overlay = new Overlay();
 
         sceneManager.init(scenes, window);
@@ -56,12 +58,14 @@ public class Game implements GameLogic {
             transitionStart = timer.getTimePassed();
             transitioning[0] = true;
             sceneTarget = 0;
+            scenes[sceneTarget].init(window);
         }
 
-        if (window.isKeyPressed(GLFW_KEY_X) && !transitioning[0]) {
+        if (window.isKeyPressed(GLFW_KEY_P) && !transitioning[0]) {
             transitionStart = timer.getTimePassed();
             transitioning[0] = true;
             sceneTarget = 1;
+            scenes[sceneTarget].init(window);
         }
 
         sceneManager.getActiveScene().input(window, mouseInput);
