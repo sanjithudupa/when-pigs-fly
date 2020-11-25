@@ -56,16 +56,18 @@ public class Game implements GameLogic {
 
         if (window.isKeyPressed(GLFW_KEY_R) && !transitioning[0]) {
             transitionStart = timer.getTimePassed();
-            transitioning[0] = true;
             sceneTarget = 0;
+            scenes[sceneTarget] = new Menu(this.camera);
             scenes[sceneTarget].init(window);
+            transitioning[0] = true;
         }
 
         if (window.isKeyPressed(GLFW_KEY_P) && !transitioning[0]) {
             transitionStart = timer.getTimePassed();
-            transitioning[0] = true;
             sceneTarget = 1;
+            scenes[sceneTarget] = new Flying(this.camera);
             scenes[sceneTarget].init(window);
+            transitioning[0] = true;
         }
 
         sceneManager.getActiveScene().input(window, mouseInput);
