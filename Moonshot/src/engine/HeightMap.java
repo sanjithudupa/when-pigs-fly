@@ -37,7 +37,6 @@ public class HeightMap {
     public ByteBuffer buffer;
 
     private final float[][] heights;
-    private final boolean[][] aboveHalf;
     double median;
 
     public HeightMap(float minY, float maxY, String heightMapFile, String textureFile, int textInc) throws Exception {
@@ -62,7 +61,6 @@ public class HeightMap {
         }
 
         heights = new float[height][width];
-        aboveHalf = new boolean[height][width];
 
         this.width = width;
         this.buffer = buf;

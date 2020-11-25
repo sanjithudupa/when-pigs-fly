@@ -44,6 +44,8 @@ public class Flying implements Scene {
     private float dive = -0.4f;
     private float gravity = 0.5f;
 
+    private int chunks = 1;
+
     public Flying(Camera camera) {
         this.camera = camera;
         this.movement = new Vector3f(0, 0, movementSpeed);
@@ -109,6 +111,7 @@ public class Flying implements Scene {
         glider.setRotation(-20, 180, 0);
         glider.setScale(1.15f);
 
+        // pig.getPosition().y = 150;
         pig.setRotation(-40, 0, 0);
 
         entities = new Entity[] { pig, glider, terrain, terrain2 };
@@ -138,11 +141,20 @@ public class Flying implements Scene {
 
     @Override
     public void update(float interval, Mouse mouseInput) {
+        boolean scannedTerrain = ((int)(pig.getPosition().z/(terrainScale))) % 2 != 0;
+        // Terrain thisTerrain =  (scannedTerrain ? terrainObj : terrainObj2);
+
+        //load next chunk
+        if(pig.getPosition().z > ((chunks-1) * terrainScale)) {
+            float currentTerrainZ = (scannedTerrain ? terrainObj : terrainObj2).getEntities()[0].getPosition().z;
+            currentTerrainZ = currentTerrainZ + (terrainScale);
+            chunks++;
+        }
+
         Vector3f pigRot = pig.getRotation();
 
         movementSpeed = (90 - pig.getRotation().x)/90;
         
-        boolean scannedTerrain =  ((int)(pig.getPosition().z/(terrainScale))) % 2 != 0;
         float zPos = pig.getPosition().z;
 
         float normalizedZ = zPos/terrainScale;
