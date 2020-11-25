@@ -10,6 +10,9 @@ public class Terrain {
     private final int terrainSize;
     private final int verticesPerCol;
     private final int verticesPerRow;
+    private final float scale;
+
+    private final int imageSize = 20;
 
     private final Box2D[][] boundingBoxes;
 
@@ -22,6 +25,7 @@ public class Terrain {
         this.terrainSize = terrainSize;
         this.verticesPerCol = this.heightMapMesh.verticesPerCol;
         this.verticesPerRow = this.heightMapMesh.verticesPerRow;
+        this.scale = scale;
         // this.aboveHalf = this.heightMapMesh.aboveHalf;
         
         boundingBoxes = new Box2D[terrainSize][terrainSize];
@@ -55,6 +59,23 @@ public class Terrain {
 
     public Entity[] getEntities() {
         return entities;
+    }
+
+    public Vector3f under(Vector3f position) {
+        float propZ = position.z / this.scale;
+        int idxZ = (int)(propZ * imageSize);
+
+        float propX = position.x / this.scale;
+        int idxX = (int)(propX * imageSize);
+        idxX = (imageSize/2) - idxX;
+
+        if(idxX < 0 ||  idxX >= imageSize)
+            return null;
+        
+        float height = this.heightMapMesh.getHeight(idxX, idxZ);   
+        height *= this.scale;
+
+        return (position.y < height) ? new Vector3f(position.x, height, position.z) : null;
     }
 
     public float getHeight(Vector3f position) {

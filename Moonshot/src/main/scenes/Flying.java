@@ -102,7 +102,9 @@ public class Flying implements Scene {
 
         terrain.getRotation().y = 90;
         terrain2.getRotation().y = 90;
-        terrain2.setPosition(0, 0, terrainScale);
+
+        terrain.setPosition(0, 0, terrainHalfLength);
+        terrain2.setPosition(0, 0, terrainScale + terrainHalfLength);
 
         glider.setRotation(-20, 180, 0);
         glider.setScale(1.15f);
@@ -140,26 +142,28 @@ public class Flying implements Scene {
 
         movementSpeed = (90 - pig.getRotation().x)/90;
         
-        boolean scannedTerrain =  ((int)(pig.getPosition().z/(terrainScale/2))) % 2 == 0;
+        boolean scannedTerrain =  ((int)(pig.getPosition().z/(terrainScale))) % 2 != 0;
         float zPos = pig.getPosition().z;
 
-        float normalizedZ = zPos/terrainHalfLength;
+        float normalizedZ = zPos/terrainScale;
         float adjustZ = normalizedZ - (int)normalizedZ;
-        float newZ = ((terrainScale * adjustZ)/2);
+        float newZ = (terrainScale * adjustZ);
 
         Vector3f adjustedPigPos = new Vector3f(pig.getPosition().x, pig.getPosition().y, newZ);
 
-        float groundPos = (scannedTerrain ? terrainObj : terrainObj2).getHeight(adjustedPigPos);
+        Vector3f collision = (scannedTerrain ? terrainObj : terrainObj2).under(adjustedPigPos);
+        boolean collided = collision != null;
 
-        // cube.setPosition(adjustedPigPos);
+        if(collided) {
+            movement = new Vector3f();
+            pig.setPosition(collision);
+        }
 
-        boolean collided = pig.getPosition().y -10 <= groundPos;
-        // System.out.println(pig.getPosition().y);
-        System.out.println(adjustedPigPos.x + ", " + adjustedPigPos.y + ", " + adjustedPigPos.z);
-
-        movement.x = -movementSpeed * (float)Math.sin(Math.toRadians(yRot));
-        movement.z = movementSpeed * (float)Math.cos(Math.toRadians(yRot));
-        movement.y = movementSpeed * (float)Math.cos(Math.toRadians(90 - pigRot.x)) + dive - gravity;
+        if(!collided){
+            movement.x = -movementSpeed * (float)Math.sin(Math.toRadians(yRot));
+            movement.z = movementSpeed * (float)Math.cos(Math.toRadians(yRot));
+            movement.y = movementSpeed * (float)Math.cos(Math.toRadians(90 - pigRot.x)) + dive - gravity;
+        }
         
         pig.getPosition().x += movement.x;
         pig.getPosition().y += movement.y;

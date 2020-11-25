@@ -32,6 +32,9 @@ public class HeightMap {
 
     public int verticesPerCol;
     public int verticesPerRow;
+    public int width;
+    
+    public ByteBuffer buffer;
 
     private final float[][] heights;
     private final boolean[][] aboveHalf;
@@ -60,6 +63,9 @@ public class HeightMap {
 
         heights = new float[height][width];
         aboveHalf = new boolean[height][width];
+
+        this.width = width;
+        this.buffer = buf;
 
         verticesPerCol = width - 1;
         verticesPerRow = height - 1;
@@ -247,5 +253,9 @@ public class HeightMap {
             }
         }
         return result;
+    }
+
+    public float getHeight2(int row, int col) {
+        return getHeight(row, col, this.width, this.buffer);
     }
 }
