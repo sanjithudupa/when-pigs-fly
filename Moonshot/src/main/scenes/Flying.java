@@ -27,6 +27,14 @@ public class Flying implements Scene {
     Entity pig, glider, terrain, terrain2;
     Terrain terrainObj, terrainObj2;
 
+    //terrain config
+    private final float terrainScale = 500;
+    private final float terrainHalfLength = terrainScale/2;
+    private final int terrainSize = 1;
+    private final float minY = -0.1f;
+    private final float maxY = 0.3f;
+    private final int textInc = 20;
+
     // scene variables
     private Vector3f cameraOffset = new Vector3f(0, 5, -5);
     private float movementSpeed = 0.15f;
@@ -58,11 +66,17 @@ public class Flying implements Scene {
         Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
         Texture pigTexture = new Texture("Moonshot/src/resources/textures/pig.png");
 
+        // Mesh cubeMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/cube.obj");
+        // Texture cubeTexture = new Texture("Moonshot/src/resources/textures/texture.png");
+
         gliderMesh.setMaterial(new Material());
         glider = new Entity(gliderMesh);
 
         pigMesh.setMaterial(new Material(pigTexture));
         pig = new Entity(pigMesh);
+
+        // cubeMesh.setMaterial(new Material(cubeTexture));
+        // cube = new Entity(cubeMesh);
 
         this.sceneLight = new SceneLight();
 
@@ -74,12 +88,6 @@ public class Flying implements Scene {
         float lightIntensity = 1.0f;
         Vector3f lightPosition = new Vector3f(1, 1, 0);
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
-
-        float terrainScale = 500;
-        int terrainSize = 1;
-        float minY = -0.1f;
-        float maxY = 0.3f;
-        int textInc = 20;
         
         terrainObj = new Terrain(terrainSize, terrainScale, minY, maxY,
                 "Moonshot/src/resources/textures/height_maps/scale_hm.jpg",
@@ -132,8 +140,21 @@ public class Flying implements Scene {
 
         movementSpeed = (90 - pig.getRotation().x)/90;
         
-        float groundPos = terrainObj.getHeight(pig.getPosition());
-        System.out.println(pig.getPosition().y <= groundPos);
+        boolean scannedTerrain =  ((int)(pig.getPosition().z/(terrainScale/2))) % 2 == 0;
+        float zPos = pig.getPosition().z;
+
+        float normalizedZ = zPos/terrainHalfLength;
+        float adjustZ = normalizedZ - (int)normalizedZ;
+        float newZ = (terrainScale * adjustZ)/2;
+
+        Vector3f adjustedPigPos = new Vector3f(pig.getPosition().x, pig.getPosition().y, newZ);
+
+        float groundPos = (scannedTerrain ? terrainObj : terrainObj2).getHeight(adjustedPigPos);
+
+        // cube.setPosition(adjustedPigPos);
+
+        boolean collided = pig.getPosition().y -10 <= groundPos;
+        System.out.println(collided);
 
         movement.x = -movementSpeed * (float)Math.sin(Math.toRadians(yRot));
         movement.z = movementSpeed * (float)Math.cos(Math.toRadians(yRot));
