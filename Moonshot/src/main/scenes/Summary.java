@@ -22,7 +22,7 @@ public class Summary implements Scene {
     private Camera camera;
 
     // scene objects
-    private Entity /*pig, */barn/*, tractor*/;
+    // private Entity /*pig, */barn/*, tractor*/;
     private int count = 0;
     private int distance = 0;
 
@@ -33,14 +33,15 @@ public class Summary implements Scene {
 
     @Override
     public void init(Window window) throws Exception {
-        Mesh barnMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/barn.obj");
-        Texture barnTexture = new Texture("Moonshot/src/resources/textures/barn.png");
+        camera.setPosition(0, 0, 0);
+        // Mesh barnMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/barn.obj");
+        // Texture barnTexture = new Texture("Moonshot/src/resources/textures/barn.png");
 
-        barnMesh.setMaterial(new Material(barnTexture));
-        barn = new Entity(barnMesh);
+        // barnMesh.setMaterial(new Material(barnTexture));
+        // barn = new Entity(barnMesh);
 
-        barn.setPosition(0, -2, -10);
-        barn.setRotation(0, 35, 0);
+        // barn.setPosition(0, -2, -10);
+        // barn.setRotation(0, 35, 0);
 
         this.sceneLight = new SceneLight();
 
@@ -53,19 +54,18 @@ public class Summary implements Scene {
         Vector3f lightPosition = new Vector3f(1, 1, 0);
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
         
-        entities = new Entity[] { barn };
+        entities = new Entity[] { };
         this.canvas = new SummaryCanvas();
         this.canvas.setDistance(this.distance);
     }
 
     @Override
     public void input(Window window, Mouse mouseInput) {
-        entities = new Entity[] { barn };
+        
     }
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-        barn.getRotation().y += 0.025;
         this.canvas.delayShow(30, count);
         count++;
     }

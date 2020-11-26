@@ -23,7 +23,6 @@ public class Game implements GameLogic {
     private float transitionStart;
     private float transitionTime = 1.0f;
     private boolean[] transitioning = {false};
-    private boolean summaryShown = false;
     
     private Scene[] scenes;
 

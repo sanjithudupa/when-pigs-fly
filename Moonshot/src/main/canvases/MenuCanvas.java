@@ -13,7 +13,7 @@ public class MenuCanvas implements Canvas {
         logo.setCentered(true);
         logo.setOffset(-logo.getWidth()/2, -540+logo.getHeight());
 
-        Image buttons = new Image("Moonshot/src/resources/textures/ui/wood2.png");
+        Image buttons = new Image("Moonshot/src/resources/textures/ui/wood.png");
         buttons.setScale(1.1f);
         buttons.setCentered(true);
         buttons.setOffset(-buttons.getWidth()/4, -120);
