@@ -73,9 +73,6 @@ public class Menu implements Scene {
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-
-        System.out.println(pig.getRotation().y);
-
         if(pig.getRotation().y >= 90 || pig.getRotation().y <= -40)
             direction *= -1;
         

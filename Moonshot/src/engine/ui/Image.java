@@ -89,5 +89,13 @@ public class Image extends UIElement {
 
     @Override
     public void input(Mouse mouse) { }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
     
 }

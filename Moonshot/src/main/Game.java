@@ -43,7 +43,7 @@ public class Game implements GameLogic {
     public void init(Window window) throws Exception {
         renderer.init(window);
 
-        scenes = new Scene[] { new Menu(camera), new Flying(camera) };
+        scenes = new Scene[] { new Menu(camera), new Flying(camera), new Summary(camera) };
         overlay = new Overlay();
 
         sceneManager.init(scenes, window);
@@ -66,6 +66,14 @@ public class Game implements GameLogic {
             transitionStart = timer.getTimePassed();
             sceneTarget = 1;
             scenes[sceneTarget] = new Flying(this.camera);
+            scenes[sceneTarget].init(window);
+            transitioning[0] = true;
+        }
+
+        if (window.isKeyPressed(GLFW_KEY_V) && !transitioning[0]) {
+            transitionStart = timer.getTimePassed();
+            sceneTarget = 2;
+            scenes[sceneTarget] = new Summary(this.camera);
             scenes[sceneTarget].init(window);
             transitioning[0] = true;
         }
