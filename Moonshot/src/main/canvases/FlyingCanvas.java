@@ -12,7 +12,7 @@ public class FlyingCanvas implements Canvas {
     public FlyingCanvas() throws Exception {
         text = new Text("");
 
-        red = new Image("Moonshot/src/resources/textures/ui/red.jpg");
+        red = new Image("res/textures/ui/red.jpg");
         red.setOpacity(0.0f);
         red.setScale(10);
 

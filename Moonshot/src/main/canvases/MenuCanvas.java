@@ -8,12 +8,12 @@ public class MenuCanvas implements Canvas {
     private final UIElement[] elements;
 
     public MenuCanvas() throws Exception {
-        Image logo = new Image("Moonshot/src/resources/textures/ui/logo.png");
+        Image logo = new Image("res/textures/ui/logo.png");
         logo.setScale(2);
         logo.setCentered(true);
         logo.setOffset(-logo.getWidth()/2, -540+logo.getHeight());
 
-        Image buttons = new Image("Moonshot/src/resources/textures/ui/wood.png");
+        Image buttons = new Image("res/textures/ui/wood.png");
         buttons.setScale(1.1f);
         buttons.setCentered(true);
         buttons.setOffset(-buttons.getWidth()/4, -120);

@@ -51,8 +51,8 @@ public class Renderer {
 
     public void setupSceneShader() throws Exception {
         sceneShaderProgram = new ShaderProgram();
-        sceneShaderProgram.createVertexShader(Utils.readFile("Moonshot/src/resources/shaders/vertex.vs"));
-        sceneShaderProgram.createFragmentShader(Utils.readFile("Moonshot/src/resources/shaders/frag.fs"));
+        sceneShaderProgram.createVertexShader(Utils.readFile("res/shaders/vertex.vs"));
+        sceneShaderProgram.createFragmentShader(Utils.readFile("res/shaders/frag.fs"));
         sceneShaderProgram.link();
 
         sceneShaderProgram.createUniform("projectionMatrix");
@@ -73,8 +73,8 @@ public class Renderer {
 
     private void setupUIShader() throws Exception {
         uiShaderProgram = new ShaderProgram();
-        uiShaderProgram.createVertexShader(Utils.readFile("Moonshot/src/resources/shaders/ui_vertex.vs"));
-        uiShaderProgram.createFragmentShader(Utils.readFile("Moonshot/src/resources/shaders/ui_fragment.fs"));
+        uiShaderProgram.createVertexShader(Utils.readFile("res/shaders/ui_vertex.vs"));
+        uiShaderProgram.createFragmentShader(Utils.readFile("res/shaders/ui_fragment.fs"));
         uiShaderProgram.link();
 
         // Create uniforms for Ortographic-model projection matrix and base colour

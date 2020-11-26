@@ -48,16 +48,16 @@ public class Menu implements Scene {
         Vector3f lightPosition = new Vector3f(90, 0, 0);
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity)); 
 
-        Mesh gliderMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/glider.obj");
+        Mesh gliderMesh = ModelLoader.loadMesh("res/models/glider.obj");
 
-        Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        Texture pigTexture = new Texture("Moonshot/src/resources/textures/pig.png");
+        Mesh pigMesh = ModelLoader.loadMesh("res/models/pig.obj");
+        Texture pigTexture = new Texture("res/textures/pig.png");
 
-        Mesh barnMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/barn.obj");
-        Texture barnTexture = new Texture("Moonshot/src/resources/textures/barn.png");
+        Mesh barnMesh = ModelLoader.loadMesh("res/models/barn.obj");
+        Texture barnTexture = new Texture("res/textures/barn.png");
 
-        Mesh tractorMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/tractor.obj");
-        Texture tractorTexture = new Texture("Moonshot/src/resources/textures/tractor.png");
+        Mesh tractorMesh = ModelLoader.loadMesh("res/models/tractor.obj");
+        Texture tractorTexture = new Texture("res/textures/tractor.png");
 
         gliderMesh.setMaterial(new Material());
         glider = new Entity(gliderMesh);

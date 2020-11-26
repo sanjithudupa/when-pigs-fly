@@ -34,8 +34,8 @@ public class Summary implements Scene {
     @Override
     public void init(Window window) throws Exception {
         camera.setPosition(0, 0, 0);
-        // Mesh barnMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/barn.obj");
-        // Texture barnTexture = new Texture("Moonshot/src/resources/textures/barn.png");
+        // Mesh barnMesh = ModelLoader.loadMesh("res/models/barn.obj");
+        // Texture barnTexture = new Texture("res/textures/barn.png");
 
         // barnMesh.setMaterial(new Material(barnTexture));
         // barn = new Entity(barnMesh);

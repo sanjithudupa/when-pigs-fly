@@ -8,6 +8,8 @@ import java.util.List;
 public class Utils {
     public static String readFile(String fileName) throws Exception {
         Path path = Path.of(fileName);
+        // Path path2 = Paths.get(fileName);
+        // System.out.println(path2.toAbsolutePath());
         String content = Files.readString(path);
         return content;
     }

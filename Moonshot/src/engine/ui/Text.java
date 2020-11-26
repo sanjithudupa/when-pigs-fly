@@ -19,7 +19,7 @@ public class Text extends UIElement {
 
     private Vector2f bbox;
 
-    private static final String FONT_TEXTURE = "Moonshot/src/resources/textures/font_texture.png";
+    private static final String FONT_TEXTURE = "res/textures/font_texture.png";
 
     private static final int VERTICES_PER_QUAD = 4;
 

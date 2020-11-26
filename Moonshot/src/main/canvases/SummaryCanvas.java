@@ -12,19 +12,19 @@ public class SummaryCanvas implements Canvas {
     private final float moveAmount = 55;
 
     public SummaryCanvas() throws Exception {
-        pigs = new Image("Moonshot/src/resources/textures/ui/pcfpigs.png");
+        pigs = new Image("res/textures/ui/pcfpigs.png");
         pigs.setScale(1.5f);
         pigs.setCentered(true);
         pigs.setOffset(-pigs.getWidth()/2 + moveAmount, -540 + pigs.getHeight()/2);
         pigs.setOpacity(0);
 
-        cant = new Image("Moonshot/src/resources/textures/ui/pcfcant.png");
+        cant = new Image("res/textures/ui/pcfcant.png");
         cant.setScale(1.5f);
         cant.setCentered(true);
         cant.setOffset(-cant.getWidth()/2 + moveAmount, -540 + 2*pigs.getHeight());
         cant.setOpacity(0);
 
-        fly = new Image("Moonshot/src/resources/textures/ui/pcffly.png");
+        fly = new Image("res/textures/ui/pcffly.png");
         fly.setScale(1.5f);
         fly.setCentered(true);
         fly.setOffset(-fly.getWidth()/2 + moveAmount, -540 + 2*pigs.getHeight() + cant.getHeight() + 50);
@@ -36,7 +36,7 @@ public class SummaryCanvas implements Canvas {
         distance.setOpacity(0);
         distance.setOffset(-30, 0);
 
-        rToReturn = new Image("Moonshot/src/resources/textures/ui/return.png");
+        rToReturn = new Image("res/textures/ui/return.png");
         rToReturn.setScale(1.5f);
         rToReturn.setCentered(true);
         rToReturn.setOffset(-rToReturn.getWidth()/2 + 110, 540 - rToReturn.getHeight() - 50);

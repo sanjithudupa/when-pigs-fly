@@ -111,6 +111,10 @@ public class Game implements GameLogic {
     @Override
     public void cleanup() {
         renderer.cleanup();
-        SceneManager.instance.cleanup();
+        try {
+            SceneManager.instance.cleanup();
+        }catch(Exception e) {
+            
+        }
     }
 }

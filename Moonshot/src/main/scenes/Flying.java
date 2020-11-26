@@ -67,13 +67,13 @@ public class Flying implements Scene {
 
     @Override
     public void init(Window window) throws Exception {
-        Mesh gliderMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/glider.obj");
+        Mesh gliderMesh = ModelLoader.loadMesh("res/models/glider.obj");
 
-        Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
-        Texture pigTexture = new Texture("Moonshot/src/resources/textures/pig.png");
+        Mesh pigMesh = ModelLoader.loadMesh("res/models/pig.obj");
+        Texture pigTexture = new Texture("res/textures/pig.png");
 
-        // Mesh cubeMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/cube.obj");
-        // Texture cubeTexture = new Texture("Moonshot/src/resources/textures/texture.png");
+        // Mesh cubeMesh = ModelLoader.loadMesh("res/models/cube.obj");
+        // Texture cubeTexture = new Texture("res/textures/texture.png");
 
         gliderMesh.setMaterial(new Material());
         glider = new Entity(gliderMesh);
@@ -96,12 +96,12 @@ public class Flying implements Scene {
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
         
         terrainObj = new Terrain(terrainSize, terrainScale, minY, maxY,
-                "Moonshot/src/resources/textures/height_maps/scale_hm.jpg",
-                "Moonshot/src/resources/textures/grass.jpeg", textInc);
+                "res/textures/height_maps/scale_hm.jpg",
+                "res/textures/grass.jpeg", textInc);
 
         terrainObj2 = new Terrain(terrainSize, terrainScale, minY, maxY,
-        "Moonshot/src/resources/textures/height_maps/scale_hm_i.jpg",
-        "Moonshot/src/resources/textures/grass.jpeg", textInc);
+        "res/textures/height_maps/scale_hm_i.jpg",
+        "res/textures/grass.jpeg", textInc);
         
         terrain = terrainObj.getEntities()[0];
         terrain2 = terrainObj2.getEntities()[0];
