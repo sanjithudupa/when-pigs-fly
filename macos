@@ -1,0 +1,7 @@
+#!/bin/bash
+path="$0"
+
+folder="$(dirname "${path}")"
+cd "${folder}"
+
+when-pigs-fly-runtime/bin/java -XstartOnFirstThread -jar when-pigs-fly.jar
