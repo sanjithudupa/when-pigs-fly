@@ -167,6 +167,9 @@ public class Flying implements Scene {
 
         Vector3f adjustedPigPos = new Vector3f(pig.getPosition().x, pig.getPosition().y, newZ);
 
+        // float hitpoint = terrainObj.getHeight(pig.getPosition());
+        // System.out.println(pig.getPosition().y < hitpoint);
+
         Vector3f collision = (scannedTerrain ? terrainObj : terrainObj2).under(adjustedPigPos);
         boolean collided = collision != null;
 
@@ -210,8 +213,6 @@ public class Flying implements Scene {
                 shown = true;
             }
         }
-
-        System.out.println(dead);
 
         canvas.setDistance((int)pigPos.z);
         
