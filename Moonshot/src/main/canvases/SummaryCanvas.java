@@ -1,15 +1,13 @@
 package main.canvases;
 
-import org.joml.Vector4f;
-
 import engine.Mouse;
 import engine.ui.*;
 
 public class SummaryCanvas implements Canvas {
 
     private final UIElement[] elements;
-    private final Text text;
-    private final Image pigs, cant, fly;
+    private final Text distance;
+    private final Image pigs, cant, fly, rToReturn;
 
     private final float moveAmount = 55;
 
@@ -32,16 +30,24 @@ public class SummaryCanvas implements Canvas {
         fly.setOffset(-fly.getWidth()/2 + moveAmount, -540 + 2*pigs.getHeight() + cant.getHeight() + 50);
         fly.setOpacity(0);
 
-        text = new Text("25");
-        text.setScale(2.5f);
-        text.setCentered(true);
-        text.setOpacity(0);
-        
-        elements = new UIElement[] { text, pigs, cant, fly};
+        distance = new Text("25");
+        distance.setScale(2.5f);
+        distance.setCentered(true);
+        distance.setOpacity(0);
+        distance.setOffset(-30, 0);
+
+        rToReturn = new Image("Moonshot/src/resources/textures/ui/return.png");
+        rToReturn.setScale(1.5f);
+        rToReturn.setCentered(true);
+        rToReturn.setOffset(-rToReturn.getWidth()/2 + 110, 540 - rToReturn.getHeight() - 50);
+        rToReturn.setOpacity(0);
+
+        elements = new UIElement[] { distance, pigs, cant, fly, rToReturn };
     }
     
-    public void setDistance(int distance) {
-        text.setText(distance + " ft");
+    public void setDistance(int d) {
+        distance.setText(d + "ft");
+        distance.setOffset(-15 * (Integer.toString(d).length() + 3), 0);
     }
 
     public void delayShow(float single, float curr) {
@@ -54,7 +60,9 @@ public class SummaryCanvas implements Canvas {
         }else if(opacity <= 3) {
             fly.setOpacity(opacity - 2);
         }else if(opacity <= 4) {
-            text.setOpacity(opacity - 3);
+            distance.setOpacity(opacity - 3);
+        }else if(opacity <= 5) {
+            rToReturn.setOpacity(opacity - 4);
         }
     }
 

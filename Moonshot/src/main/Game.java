@@ -18,13 +18,12 @@ public class Game implements GameLogic {
     private final Renderer renderer;
     private final Timer timer;
 
-    private final SceneManager sceneManager;
-
     private Overlay overlay;
 
     private float transitionStart;
     private float transitionTime = 1.0f;
     private boolean[] transitioning = {false};
+    private boolean summaryShown = false;
     
     private Scene[] scenes;
 
@@ -35,8 +34,7 @@ public class Game implements GameLogic {
         camera = new Camera();
         timer = new Timer();
 
-        sceneManager = new SceneManager();
-        SceneManager.instance = sceneManager;
+        SceneManager.instance = new SceneManager();;
     }
 
     @Override
@@ -46,7 +44,7 @@ public class Game implements GameLogic {
         scenes = new Scene[] { new Menu(camera), new Flying(camera), new Summary(camera) };
         overlay = new Overlay();
 
-        sceneManager.init(scenes, window);
+        SceneManager.instance.init(scenes, window);
 
         timer.init();
     }
@@ -78,29 +76,42 @@ public class Game implements GameLogic {
             transitioning[0] = true;
         }
 
-        sceneManager.getActiveScene().input(window, mouseInput);
+        if(SceneManager.instance.showFinalScene && !transitioning[0]) {
+            transitionStart = timer.getTimePassed();
+            sceneTarget = 2;
+            scenes[sceneTarget] = new Summary(this.camera);
+            scenes[sceneTarget].init(window);
+            transitioning[0] = true;
+            SceneManager.instance.showFinalScene = false;
+        }
 
+        SceneManager.instance.getActiveScene().input(window, mouseInput);
+
+    }
+
+    public Scene[] getScenes(){
+        return this.scenes;
     }
 
     boolean switched = false;
 
     @Override
     public void update(float interval, Mouse mouseInput) {
-        sceneManager.getActiveScene().update(interval, mouseInput);
+        SceneManager.instance.getActiveScene().update(interval, mouseInput);
         if(transitioning[0]) {
-            sceneManager.changeScene(sceneTarget, transitioning, transitionStart, transitionTime, overlay, timer);
+            SceneManager.instance.changeScene(sceneTarget, transitioning, transitionStart, transitionTime, overlay, timer);
         }
     }
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, sceneManager.getActiveScene(), overlay);
-        sceneManager.getActiveScene().getCanvas().update(window);
+        renderer.render(window, camera, scenes[sceneTarget], overlay);
+        SceneManager.instance.getActiveScene().getCanvas().update(window);
     }
 
     @Override
     public void cleanup() {
         renderer.cleanup();
-        sceneManager.cleanup();
+        SceneManager.instance.cleanup();
     }
 }

@@ -25,9 +25,10 @@ public class Menu implements Scene {
     private Camera camera;
 
     // scene objects
-    Entity pig, glider;
+    Entity pig, glider, barn, tractor;
 
-    int direction = 1;
+    int pigDir = 1;
+    int tractorDir = -1;
 
     public Menu(Camera camera) {
         this.camera = camera;
@@ -44,7 +45,7 @@ public class Menu implements Scene {
 
         // Directional Light
         float lightIntensity = 0.5f;
-        Vector3f lightPosition = new Vector3f(0, 90, 0);
+        Vector3f lightPosition = new Vector3f(90, 0, 0);
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity)); 
 
         Mesh gliderMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/glider.obj");
@@ -52,18 +53,36 @@ public class Menu implements Scene {
         Mesh pigMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/pig.obj");
         Texture pigTexture = new Texture("Moonshot/src/resources/textures/pig.png");
 
+        Mesh barnMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/barn.obj");
+        Texture barnTexture = new Texture("Moonshot/src/resources/textures/barn.png");
+
+        Mesh tractorMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/tractor.obj");
+        Texture tractorTexture = new Texture("Moonshot/src/resources/textures/tractor.png");
+
         gliderMesh.setMaterial(new Material());
         glider = new Entity(gliderMesh);
 
         pigMesh.setMaterial(new Material(pigTexture));
         pig = new Entity(pigMesh);
 
+        barnMesh.setMaterial(new Material(barnTexture));
+        barn = new Entity(barnMesh);
+
+        tractorMesh.setMaterial(new Material(tractorTexture));
+        tractor = new Entity(tractorMesh);
+
         camera.setPosition(0, 0, 0);
         
-        pig.setPosition(0, -2.5f, -5);
+        pig.setPosition(-2.5f, -1, -5);
+
+        tractor.setPosition(2.5f, -1, -5);
+        tractor.setScale(0.5f);
+
+        barn.setPosition(0, -2, -10);
+        barn.setRotation(0, 35, 0);
         // pig.setRotation(-20, 0, 0);
 
-        this.entities = new Entity[] { pig, glider };
+        this.entities = new Entity[] { pig, glider, barn, tractor };
     }
 
     @Override
@@ -74,11 +93,20 @@ public class Menu implements Scene {
     @Override
     public void update(float interval, Mouse mouseInput) {
         if(pig.getRotation().y >= 90 || pig.getRotation().y <= -40)
-            direction *= -1;
+            pigDir *= -1;
         
-        pig.getRotation().y += direction * 0.1;
-        pig.getRotation().x -= direction * 0.05;
-        pig.getRotation().z -= direction * 0.025;
+        if(tractor.getRotation().y >= 90 || tractor.getRotation().y <= -40)
+            tractorDir *= -1;
+        
+        pig.getRotation().y += pigDir * 0.1;
+        pig.getRotation().x -= pigDir * 0.05;
+        pig.getRotation().z -= pigDir * 0.025;
+
+        tractor.getRotation().y += tractorDir * 0.1;
+        tractor.getRotation().x -= tractorDir * 0.05;
+        tractor.getRotation().z -= tractorDir * 0.025;
+
+        barn.getRotation().y += 0.025;
 
         Vector3f pigRot = pig.getRotation();
 

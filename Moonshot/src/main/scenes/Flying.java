@@ -10,6 +10,7 @@ import engine.graph.*;
 import engine.graph.lighting.DirectionalLight;
 import engine.graph.lighting.SceneLight;
 import engine.scene.Scene;
+import engine.scene.SceneManager;
 import engine.ui.Canvas;
 import main.canvases.FlyingCanvas;
 
@@ -47,6 +48,7 @@ public class Flying implements Scene {
     private int chunks = 1;
     private int deathIterations = 0;
     private boolean dead = false;
+    private boolean shown = false;
 
     public Flying(Camera camera) {
         this.camera = camera;
@@ -202,6 +204,11 @@ public class Flying implements Scene {
 
         if(deathIterations > 10) {
             dead = true;
+            if(!shown) {
+                SceneManager.instance.distance = (int)pigPos.z;
+                SceneManager.instance.showFinalScene = true;
+                shown = true;
+            }
         }
 
         System.out.println(dead);

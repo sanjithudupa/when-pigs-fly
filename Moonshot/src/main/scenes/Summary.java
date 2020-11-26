@@ -9,6 +9,7 @@ import engine.graph.*;
 import engine.graph.lighting.DirectionalLight;
 import engine.graph.lighting.SceneLight;
 import engine.scene.Scene;
+import engine.scene.SceneManager;
 import engine.ui.Canvas;
 import main.canvases.SummaryCanvas;
 
@@ -21,17 +22,17 @@ public class Summary implements Scene {
     private Camera camera;
 
     // scene objects
-    private Entity pig, barn, tractor;
+    private Entity /*pig, */barn/*, tractor*/;
     private int count = 0;
+    private int distance = 0;
 
     public Summary(Camera camera) {
         this.camera = camera;
+        this.distance = SceneManager.instance.distance;
     }
 
     @Override
     public void init(Window window) throws Exception {
-        camera.setPosition(0, 0, 0);
-
         Mesh barnMesh = ModelLoader.loadMesh("Moonshot/src/resources/models/barn.obj");
         Texture barnTexture = new Texture("Moonshot/src/resources/textures/barn.png");
 
@@ -52,13 +53,14 @@ public class Summary implements Scene {
         Vector3f lightPosition = new Vector3f(1, 1, 0);
         sceneLight.setDirectionalLight(new DirectionalLight(new Vector3f(1, 1, 1), lightPosition, lightIntensity));
         
+        entities = new Entity[] { barn };
         this.canvas = new SummaryCanvas();
-        this.entities = new Entity[] { barn };
+        this.canvas.setDistance(this.distance);
     }
 
     @Override
     public void input(Window window, Mouse mouseInput) {
-
+        entities = new Entity[] { barn };
     }
 
     @Override
@@ -69,7 +71,7 @@ public class Summary implements Scene {
     }
 
     public void setDistance(int distance) {
-
+        this.distance = distance;
     }
 
     @Override
