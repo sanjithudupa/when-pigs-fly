@@ -16,12 +16,14 @@ import engine.scene.Scene;
 import engine.ui.Canvas;
 import main.canvases.MenuCanvas;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 public class Menu implements Scene {
 
     // required elements
     private Entity[] entities;
     private SceneLight sceneLight;
-    private Canvas canvas;
+    private MenuCanvas canvas;
     private Camera camera;
 
     // scene objects
@@ -29,6 +31,10 @@ public class Menu implements Scene {
 
     int pigDir = 1;
     int tractorDir = -1;
+
+    boolean optionsShowing = false;
+    boolean atTop = false;
+    int count = 0;
 
     public Menu(Camera camera) {
         this.camera = camera;
@@ -87,7 +93,10 @@ public class Menu implements Scene {
 
     @Override
     public void input(Window window, Mouse mouseInput) {
-
+        if (window.isKeyPressed(GLFW_KEY_Q)) {
+            count = 0;
+            optionsShowing = true;
+        }
     }
 
     @Override
@@ -112,6 +121,20 @@ public class Menu implements Scene {
 
         glider.setPosition(pig.getPosition());
         glider.setRotation(new Vector3f(pigRot.x+22.5f, pigRot.y + 180, -pigRot.z));
+        
+        if(optionsShowing) {
+            canvas.moveOptions(20, count, atTop);
+            if(count > 20) {
+                atTop = !atTop;
+                optionsShowing = false;
+            }
+        }
+
+        // System.out.println(count + ", " + optionsShowing);
+
+        // System.out.println(count + ", " + optionsShowing);
+
+        count++;
     }
 
     @Override

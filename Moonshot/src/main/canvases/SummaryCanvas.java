@@ -30,11 +30,12 @@ public class SummaryCanvas implements Canvas {
         fly.setOffset(-fly.getWidth()/2 + moveAmount, -540 + 2*pigs.getHeight() + cant.getHeight() + 50);
         fly.setOpacity(0);
 
-        distance = new Text("25");
+        String dist = "*more than 25ft";
+        distance = new Text(dist);
         distance.setScale(2.5f);
         distance.setCentered(true);
         distance.setOpacity(0);
-        distance.setOffset(-30, 0);
+        distance.setOffset(-(22 * (dist.length() + 1)), 0);
 
         rToReturn = new Image("res/textures/ui/return.png");
         rToReturn.setScale(1.5f);
@@ -46,8 +47,9 @@ public class SummaryCanvas implements Canvas {
     }
     
     public void setDistance(int d) {
-        distance.setText(d + "ft");
-        distance.setOffset(-15 * (Integer.toString(d).length() + 3), 0);
+        String dist =  "*more than " + d + "ft";
+        distance.setText(dist);
+        distance.setOffset(-22 * (dist.length() + 1), 0);
     }
 
     public void delayShow(float single, float curr) {
